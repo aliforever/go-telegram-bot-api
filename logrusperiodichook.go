@@ -2,7 +2,7 @@ package tgbotapi
 
 import (
 	"fmt"
-	"github.com/Sirupsen/logrus"
+	"github.com/sirupsen/logrus"
 	"log"
 	"strings"
 	"time"
