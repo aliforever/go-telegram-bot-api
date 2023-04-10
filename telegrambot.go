@@ -394,6 +394,7 @@ func (tb *TelegramBot) DeleteWebhook() (m *deleteWebhook) {
 
 // StopReceivingUpdates TODO: Not working yet
 func (tb *TelegramBot) StopReceivingUpdates() {
+	close(tb.updates)
 	close(tb.stopReceivingUpdatesChannel)
 }
 
