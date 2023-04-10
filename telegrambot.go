@@ -16,17 +16,15 @@ import (
 )
 
 type TelegramBot struct {
-	apiToken                    string
-	apiUrl                      string
-	username                    string
-	recipientChatId             int64
-	stopReceivingUpdatesChannel chan bool
-	stoppedReceivingUpdates     bool
-	updates                     chan Update
-	randSource                  rand.Source
-	client                      *resty.Client
-	Tools                       tools.Tools
-	logger                      resty.Logger
+	apiToken        string
+	apiUrl          string
+	username        string
+	recipientChatId int64
+	updates         chan Update
+	randSource      rand.Source
+	client          *resty.Client
+	Tools           tools.Tools
+	logger          resty.Logger
 }
 
 func NewSelfHosted(apiToken string, address string) (tb *TelegramBot, err error) {
@@ -37,13 +35,12 @@ func NewSelfHosted(apiToken string, address string) (tb *TelegramBot, err error)
 	client.SetDoNotParseResponse(true)
 
 	bot := &TelegramBot{
-		apiToken:                    apiToken,
-		apiUrl:                      address,
-		stopReceivingUpdatesChannel: nil,
-		client:                      client,
-		updates:                     make(chan Update),
-		randSource:                  rand.NewSource(time.Now().UnixNano()),
-		Tools:                       tools.Tools{},
+		apiToken:   apiToken,
+		apiUrl:     address,
+		client:     client,
+		updates:    make(chan Update),
+		randSource: rand.NewSource(time.Now().UnixNano()),
+		Tools:      tools.Tools{},
 	}
 
 	var resp *Response
@@ -69,13 +66,12 @@ func New(apiToken string) (tb *TelegramBot, err error) {
 	client.SetDoNotParseResponse(true)
 
 	bot := &TelegramBot{
-		apiToken:                    apiToken,
-		apiUrl:                      address,
-		stopReceivingUpdatesChannel: nil,
-		client:                      client,
-		updates:                     make(chan Update),
-		randSource:                  rand.NewSource(time.Now().UnixNano()),
-		Tools:                       tools.Tools{},
+		apiToken:   apiToken,
+		apiUrl:     address,
+		client:     client,
+		updates:    make(chan Update),
+		randSource: rand.NewSource(time.Now().UnixNano()),
+		Tools:      tools.Tools{},
 	}
 
 	var resp *Response
@@ -99,14 +95,13 @@ func NewTelegramBotWithLogger(apiToken string, logger resty.Logger) (tb *Telegra
 	client.SetHostURL(address)
 	client.SetDoNotParseResponse(true)
 	bot := &TelegramBot{
-		apiToken:                    apiToken,
-		apiUrl:                      address,
-		stopReceivingUpdatesChannel: nil,
-		client:                      client,
-		updates:                     make(chan Update),
-		Tools:                       tools.Tools{},
-		randSource:                  rand.NewSource(time.Now().UnixNano()),
-		logger:                      logger,
+		apiToken:   apiToken,
+		apiUrl:     address,
+		client:     client,
+		updates:    make(chan Update),
+		Tools:      tools.Tools{},
+		randSource: rand.NewSource(time.Now().UnixNano()),
+		logger:     logger,
 	}
 	var resp *Response
 	resp, err = bot.Send(bot.GetMe())
@@ -395,7 +390,6 @@ func (tb *TelegramBot) DeleteWebhook() (m *deleteWebhook) {
 // StopReceivingUpdates TODO: Not working yet
 func (tb *TelegramBot) StopReceivingUpdates() {
 	close(tb.updates)
-	close(tb.stopReceivingUpdatesChannel)
 }
 
 func (tb *TelegramBot) ListenWebhook(address string) (err error) {
