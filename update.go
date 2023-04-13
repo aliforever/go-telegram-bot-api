@@ -21,7 +21,6 @@ type Update struct {
 	PollAnswer *structs.PollAnswer `json:"poll_answer,omitempty"`
 	err        error
 	raw        []byte
-	// PollAnswer         PollAnswer         `json:"poll_answer"`
 }
 
 func newUpdateError(err error) Update {
@@ -36,21 +35,50 @@ func (u *Update) Raw() []byte {
 	return u.raw
 }
 
+func (u *Update) Chat() (chat *structs.Chat) {
+	if u.Message != nil && u.Message.Chat != nil {
+		return u.Message.Chat
+	}
+
+	if u.EditedMessage != nil && u.EditedMessage.Chat != nil {
+		return u.EditedMessage.Chat
+	}
+
+	if u.CallbackQuery != nil && u.CallbackQuery.Message != nil && u.CallbackQuery.Message.Chat != nil {
+		return u.CallbackQuery.Message.Chat
+	}
+
+	if u.ChatMember != nil && u.ChatMember.Chat != nil {
+		return u.ChatMember.Chat
+	}
+
+	if u.MyChatMember != nil && u.MyChatMember.Chat != nil {
+		return u.MyChatMember.Chat
+	}
+
+	// TODO: Add More Cases
+	return nil
+}
+
 func (u *Update) From() (user *structs.User) {
-	if u.Message != nil {
-		if u.Message.From != nil {
-			return u.Message.From
-		}
+	if u.Message != nil && u.Message.From != nil {
+		return u.Message.From
 	}
-	if u.EditedMessage != nil {
-		if u.EditedMessage.From != nil {
-			return u.EditedMessage.From
-		}
+
+	if u.EditedMessage != nil && u.EditedMessage.From != nil {
+		return u.EditedMessage.From
 	}
-	if u.CallbackQuery != nil {
-		if u.CallbackQuery.From != nil {
-			return u.CallbackQuery.From
-		}
+
+	if u.CallbackQuery != nil && u.CallbackQuery.From != nil {
+		return u.CallbackQuery.From
+	}
+
+	if u.ChatMember != nil && u.ChatMember.From != nil {
+		return u.ChatMember.From
+	}
+
+	if u.MyChatMember != nil && u.MyChatMember.From != nil {
+		return u.MyChatMember.From
 	}
 
 	// TODO: Add More Cases
