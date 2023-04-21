@@ -22,7 +22,7 @@ func (k Keyboards) NewInlineKeyboardFromSlicesOfMapWithFormation(
 	for _, s := range slicesOfMaps {
 		row = append(row, s)
 
-		if k.shouldBreakRow(len(row), len(rows), maxPerRow, formation) {
+		if k.shouldBreakRow(len(row), len(rows), maxPerRow, formation) || s == nil {
 			rows = append(rows, row)
 			row = []map[string]string{}
 		}
@@ -69,7 +69,7 @@ func (k Keyboards) NewReplyKeyboardFromSliceOfStringsWithFormation(
 	for _, s := range sliceOfStrings {
 		row = append(row, s)
 
-		if k.shouldBreakRow(len(row), len(rows), maxBtnPerRow, buttonFormation) {
+		if k.shouldBreakRow(len(row), len(rows), maxBtnPerRow, buttonFormation) || s == "" {
 			rows = append(rows, row)
 			row = []string{}
 		}
