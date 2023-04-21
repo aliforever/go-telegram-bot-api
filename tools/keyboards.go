@@ -14,7 +14,7 @@ func (k Keyboards) NewInlineKeyboardFromSlicesOfMaps(slicesOfMaps [][]map[string
 }
 
 func (k Keyboards) NewInlineKeyboardFromSlicesOfMapWithFormation(
-	slicesOfMaps []map[string]string, bpr int, maxPerRow int, formation []int) *structs.InlineKeyboardMarkup {
+	slicesOfMaps []map[string]string, maxPerRow int, formation []int) *structs.InlineKeyboardMarkup {
 
 	var rows [][]map[string]string
 	var row []map[string]string
@@ -22,7 +22,7 @@ func (k Keyboards) NewInlineKeyboardFromSlicesOfMapWithFormation(
 	for _, s := range slicesOfMaps {
 		row = append(row, s)
 
-		if k.shouldBreakRow(len(row), len(rows), bpr, maxPerRow, formation) {
+		if k.shouldBreakRow(len(row), len(rows), maxPerRow, formation) {
 			rows = append(rows, row)
 			row = []map[string]string{}
 		}
@@ -61,7 +61,7 @@ func (k Keyboards) NewReplyKeyboardFromSliceOfStrings(sliceOfStrings []string, b
 // The slice of strings will be divided into slices of strings with the length of bpr (buttons per row).
 // The formation of the keyboard is defined by the slice of integers.
 func (k Keyboards) NewReplyKeyboardFromSliceOfStringsWithFormation(
-	sliceOfStrings []string, bpr int, buttonFormation []int) *structs.ReplyKeyboardMarkup {
+	sliceOfStrings []string, maxBtnPerRow int, buttonFormation []int) *structs.ReplyKeyboardMarkup {
 
 	var rows [][]string
 	var row []string
@@ -69,7 +69,7 @@ func (k Keyboards) NewReplyKeyboardFromSliceOfStringsWithFormation(
 	for _, s := range sliceOfStrings {
 		row = append(row, s)
 
-		if k.shouldBreakRow(len(row), len(rows), bpr, 0, buttonFormation) {
+		if k.shouldBreakRow(len(row), len(rows), maxBtnPerRow, buttonFormation) {
 			rows = append(rows, row)
 			row = []string{}
 		}
@@ -83,13 +83,9 @@ func (k Keyboards) NewReplyKeyboardFromSliceOfStringsWithFormation(
 }
 
 func (k Keyboards) shouldBreakRow(
-	rowLength int, rowsLength int, defaultBpr int, maxButtonPerRow int, buttonFormation []int) bool {
+	rowLength int, rowsLength int, maxButtonPerRow int, buttonFormation []int) bool {
 
-	defaultCond := rowLength >= defaultBpr
-
-	if maxButtonPerRow > 0 {
-		defaultCond = rowLength >= maxButtonPerRow
-	}
+	defaultCond := rowLength >= maxButtonPerRow
 
 	if len(buttonFormation) > rowsLength {
 		defaultCond = rowLength >= buttonFormation[rowsLength]
