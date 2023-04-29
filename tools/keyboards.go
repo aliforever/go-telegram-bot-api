@@ -28,6 +28,10 @@ func (k Keyboards) NewInlineKeyboardFromSlicesOfMapWithFormation(
 		}
 	}
 
+	if len(row) > 0 {
+		rows = append(rows, row)
+	}
+
 	return (&structs.InlineKeyboardMarkup{}).FromSlicesOfMaps(rows)
 }
 
