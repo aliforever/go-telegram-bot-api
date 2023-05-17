@@ -54,6 +54,10 @@ func (m *stopPoll) SetMessageId(messageId int64) *stopPoll {
 }
 
 func (m *stopPoll) SetReplyMarkup(markup *structs.InlineKeyboardMarkup) *stopPoll {
+	if markup == nil {
+		return m
+	}
+
 	m.replyMarkup = markup
 	return m
 }

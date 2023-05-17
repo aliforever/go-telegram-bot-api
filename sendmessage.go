@@ -116,6 +116,10 @@ func (m *sendMessage) SetReplyToMessageId(messageId int64) *sendMessage {
 }
 
 func (m *sendMessage) SetReplyMarkup(markup interface{}) *sendMessage {
+	if markup == nil {
+		return m
+	}
+
 	m.replyMarkup = markup
 	return m
 }

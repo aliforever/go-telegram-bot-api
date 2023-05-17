@@ -61,6 +61,11 @@ func (m *editMessageReplyMarkup) SetInlineMessageId(inlineMessageId string) *edi
 }
 
 func (m *editMessageReplyMarkup) SetReplyMarkup(markup *structs.InlineKeyboardMarkup) *editMessageReplyMarkup {
+	if markup == nil {
+		return m
+	}
+
 	m.replyMarkup = markup
+
 	return m
 }
