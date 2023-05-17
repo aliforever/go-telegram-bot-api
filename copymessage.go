@@ -122,7 +122,7 @@ func (cm *copyMessage) SetMessage(message *structs.Message) *copyMessage {
 }
 
 func (cm *copyMessage) SetReplyMarkup(markup interface{}) *copyMessage {
-	cm.replyMarkup = &markup
+	cm.replyMarkup = markup
 	return cm
 }
 

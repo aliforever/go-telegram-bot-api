@@ -106,6 +106,6 @@ func (m *editMessageMedia) SetInlineMessageId(inlineMessageId string) *editMessa
 }
 
 func (m *editMessageMedia) SetReplyMarkup(markup interface{}) *editMessageMedia {
-	m.replyMarkup = &markup
+	m.replyMarkup = markup
 	return m
 }

@@ -116,7 +116,7 @@ func (m *sendMessage) SetReplyToMessageId(messageId int64) *sendMessage {
 }
 
 func (m *sendMessage) SetReplyMarkup(markup interface{}) *sendMessage {
-	m.replyMarkup = &markup
+	m.replyMarkup = markup
 	return m
 }
 
@@ -126,7 +126,7 @@ func (m *sendMessage) SetReplyMarkup(markup interface{}) *sendMessage {
 	b.OneTimeKeyboard = oneTime
 	b.Selective = selective
 	var keyboard interface{} = b
-	m.replyMarkup = &keyboard
+	m.replyMarkup = keyboard
 	return m
 }
 */

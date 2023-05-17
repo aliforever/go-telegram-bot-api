@@ -98,6 +98,6 @@ func (m *editMessageCaption) SetInlineMessageId(inlineMessageId string) *editMes
 }
 
 func (m *editMessageCaption) SetReplyMarkup(markup interface{}) *editMessageCaption {
-	m.replyMarkup = &markup
+	m.replyMarkup = markup
 	return m
 }
