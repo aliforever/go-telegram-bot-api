@@ -16,7 +16,7 @@ type sendDocument struct {
 	parseMode           string
 	disableNotification bool
 	replyToMessageId    int64
-	replyMarkup         *interface{}
+	replyMarkup         interface{}
 	// DisableWebPagePreview bool         `json:"disable_web_page_preview,omitempty"`
 	file
 	documents []fileInfo
@@ -24,14 +24,14 @@ type sendDocument struct {
 
 func (sd *sendDocument) marshalJSON() ([]byte, error) {
 	return json.Marshal(struct {
-		ChatId              interface{}  `json:"chat_id"`
-		Document            interface{}  `json:"document,omitempty"`
-		Thumb               interface{}  `json:"thumb,omitempty"`
-		Caption             string       `json:"caption,omitempty"`
-		ParseMode           string       `json:"parse_mode,omitempty"`
-		DisableNotification bool         `json:"disable_notification,omitempty"`
-		ReplyToMessageId    int64        `json:"reply_to_message_id,omitempty"`
-		ReplyMarkup         *interface{} `json:"reply_markup,omitempty"`
+		ChatId              interface{} `json:"chat_id"`
+		Document            interface{} `json:"document,omitempty"`
+		Thumb               interface{} `json:"thumb,omitempty"`
+		Caption             string      `json:"caption,omitempty"`
+		ParseMode           string      `json:"parse_mode,omitempty"`
+		DisableNotification bool        `json:"disable_notification,omitempty"`
+		ReplyToMessageId    int64       `json:"reply_to_message_id,omitempty"`
+		ReplyMarkup         interface{} `json:"reply_markup,omitempty"`
 	}{
 		ChatId:              sd.chatId,
 		Document:            sd.document,

@@ -13,17 +13,17 @@ type editMessageCaption struct {
 	inlineMessageId string
 	caption         string
 	parseMode       string
-	replyMarkup     *interface{}
+	replyMarkup     interface{}
 }
 
 func (m *editMessageCaption) marshalJSON() ([]byte, error) {
 	return json.Marshal(struct {
-		ChatId          interface{}  `json:"chat_id"`
-		MessageId       int64        `json:"message_id"`
-		InlineMessageId string       `json:"inline_message_id"`
-		Caption         string       `json:"caption,omitempty"`
-		ParseMode       string       `json:"parse_mode,omitempty"`
-		ReplyMarkup     *interface{} `json:"reply_markup,omitempty"`
+		ChatId          interface{} `json:"chat_id"`
+		MessageId       int64       `json:"message_id"`
+		InlineMessageId string      `json:"inline_message_id"`
+		Caption         string      `json:"caption,omitempty"`
+		ParseMode       string      `json:"parse_mode,omitempty"`
+		ReplyMarkup     interface{} `json:"reply_markup,omitempty"`
 	}{
 		ChatId:          m.chatId,
 		MessageId:       m.messageId,

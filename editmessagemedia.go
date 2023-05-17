@@ -12,18 +12,18 @@ type editMessageMedia struct {
 	messageId       int64
 	inlineMessageId string
 	media           inputMedia
-	replyMarkup     *interface{}
+	replyMarkup     interface{}
 	file
 	files []fileInfo
 }
 
 func (m *editMessageMedia) marshalJSON() ([]byte, error) {
 	nM := struct {
-		ChatId          interface{}  `json:"chat_id"`
-		MessageId       int64        `json:"message_id,omitempty"`
-		InlineMessageId string       `json:"inline_message_id,omitempty"`
-		Media           string       `json:"media,omitempty"`
-		ReplyMarkup     *interface{} `json:"reply_markup,omitempty"`
+		ChatId          interface{} `json:"chat_id"`
+		MessageId       int64       `json:"message_id,omitempty"`
+		InlineMessageId string      `json:"inline_message_id,omitempty"`
+		Media           string      `json:"media,omitempty"`
+		ReplyMarkup     interface{} `json:"reply_markup,omitempty"`
 	}{
 		ChatId:          m.chatId,
 		MessageId:       m.messageId,

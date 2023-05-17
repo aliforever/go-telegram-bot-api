@@ -18,23 +18,23 @@ type sendPoll struct {
 	isClosed              bool
 	disableNotification   bool
 	replyToMessageId      int64
-	replyMarkup           *interface{}
+	replyMarkup           interface{}
 	// DisableWebPagePreview bool         `json:"disable_web_page_preview,omitempty"`
 }
 
 func (sv *sendPoll) marshalJSON() ([]byte, error) {
 	return json.Marshal(struct {
-		ChatId                interface{}  `json:"chat_id"`
-		Question              string       `json:"question"`
-		Options               []string     `json:"options"`
-		IsAnonymous           bool         `json:"is_anonymous"`
-		PollType              string       `json:"type,omitempty"`
-		AllowsMultipleAnswers bool         `json:"allows_multiple_answers,omitempty"`
-		CorrectOptionId       int64        `json:"correct_option_id,omitempty"`
-		IsClosed              bool         `json:"is_closed,omitempty"`
-		DisableNotification   bool         `json:"disable_notification,omitempty"`
-		ReplyToMessageId      int64        `json:"reply_to_message_id,omitempty"`
-		ReplyMarkup           *interface{} `json:"reply_markup,omitempty"`
+		ChatId                interface{} `json:"chat_id"`
+		Question              string      `json:"question"`
+		Options               []string    `json:"options"`
+		IsAnonymous           bool        `json:"is_anonymous"`
+		PollType              string      `json:"type,omitempty"`
+		AllowsMultipleAnswers bool        `json:"allows_multiple_answers,omitempty"`
+		CorrectOptionId       int64       `json:"correct_option_id,omitempty"`
+		IsClosed              bool        `json:"is_closed,omitempty"`
+		DisableNotification   bool        `json:"disable_notification,omitempty"`
+		ReplyToMessageId      int64       `json:"reply_to_message_id,omitempty"`
+		ReplyMarkup           interface{} `json:"reply_markup,omitempty"`
 	}{
 		ChatId:                sv.chatId,
 		Question:              sv.question,

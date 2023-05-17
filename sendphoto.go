@@ -16,21 +16,21 @@ type sendPhoto struct {
 	disableWebPagePreview bool
 	disableNotification   bool
 	replyToMessageId      int64
-	replyMarkup           *interface{}
+	replyMarkup           interface{}
 	file
 	photos []fileInfo
 }
 
 func (sph *sendPhoto) marshalJSON() ([]byte, error) {
 	return json.Marshal(struct {
-		ChatId                interface{}  `json:"chat_id"`
-		Photo                 interface{}  `json:"photo,omitempty"`
-		Caption               string       `json:"caption,omitempty"`
-		ParseMode             string       `json:"parse_mode,omitempty"`
-		DisableWebPagePreview bool         `json:"disable_web_page_preview,omitempty"`
-		DisableNotification   bool         `json:"disable_notification,omitempty"`
-		ReplyToMessageId      int64        `json:"reply_to_message_id,omitempty"`
-		ReplyMarkup           *interface{} `json:"reply_markup,omitempty"`
+		ChatId                interface{} `json:"chat_id"`
+		Photo                 interface{} `json:"photo,omitempty"`
+		Caption               string      `json:"caption,omitempty"`
+		ParseMode             string      `json:"parse_mode,omitempty"`
+		DisableWebPagePreview bool        `json:"disable_web_page_preview,omitempty"`
+		DisableNotification   bool        `json:"disable_notification,omitempty"`
+		ReplyToMessageId      int64       `json:"reply_to_message_id,omitempty"`
+		ReplyMarkup           interface{} `json:"reply_markup,omitempty"`
 	}{
 		ChatId:                sph.chatId,
 		Photo:                 sph.photo,

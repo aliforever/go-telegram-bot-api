@@ -15,20 +15,20 @@ type sendContact struct {
 	vcard               string
 	disableNotification bool
 	replyToMessageId    int64
-	replyMarkup         *interface{}
+	replyMarkup         interface{}
 	// DisableWebPagePreview bool         `json:"disable_web_page_preview,omitempty"`
 }
 
 func (sv *sendContact) marshalJSON() ([]byte, error) {
 	return json.Marshal(struct {
-		ChatId              interface{}  `json:"chat_id"`
-		PhoneNumber         string       `json:"phone_number"`
-		FirstName           string       `json:"first_name"`
-		LastName            string       `json:"last_name,omitempty"`
-		Vcard               string       `json:"vcard,omitempty"`
-		DisableNotification bool         `json:"disable_notification,omitempty"`
-		ReplyToMessageId    int64        `json:"reply_to_message_id,omitempty"`
-		ReplyMarkup         *interface{} `json:"reply_markup,omitempty"`
+		ChatId              interface{} `json:"chat_id"`
+		PhoneNumber         string      `json:"phone_number"`
+		FirstName           string      `json:"first_name"`
+		LastName            string      `json:"last_name,omitempty"`
+		Vcard               string      `json:"vcard,omitempty"`
+		DisableNotification bool        `json:"disable_notification,omitempty"`
+		ReplyToMessageId    int64       `json:"reply_to_message_id,omitempty"`
+		ReplyMarkup         interface{} `json:"reply_markup,omitempty"`
 	}{
 		ChatId:              sv.chatId,
 		PhoneNumber:         sv.phoneNumber,

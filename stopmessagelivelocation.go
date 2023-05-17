@@ -11,16 +11,16 @@ type stopMessageLiveLocation struct {
 	chatId          interface{}
 	messageId       int64
 	inlineMessageId string
-	replyMarkup     *interface{}
+	replyMarkup     interface{}
 	// DisableWebPagePreview bool         `json:"disable_web_page_preview,omitempty"`
 }
 
 func (smll *stopMessageLiveLocation) marshalJSON() ([]byte, error) {
 	return json.Marshal(struct {
-		ChatId          interface{}  `json:"chat_id,omitempty"`
-		MessageId       int64        `json:"message_id,omitempty"`
-		InlineMessageId string       `json:"inline_message_id,omitempty"`
-		ReplyMarkup     *interface{} `json:"reply_markup,omitempty"`
+		ChatId          interface{} `json:"chat_id,omitempty"`
+		MessageId       int64       `json:"message_id,omitempty"`
+		InlineMessageId string      `json:"inline_message_id,omitempty"`
+		ReplyMarkup     interface{} `json:"reply_markup,omitempty"`
 	}{
 		ChatId:          smll.chatId,
 		MessageId:       smll.messageId,

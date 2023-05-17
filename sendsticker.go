@@ -14,7 +14,7 @@ type sendSticker struct {
 	sticker             string
 	disableNotification bool
 	replyToMessageId    int64
-	replyMarkup         *interface{}
+	replyMarkup         interface{}
 	file
 	fileInfo *fileInfo
 	// DisableWebPagePreview bool         `json:"disable_web_page_preview,omitempty"`
@@ -22,11 +22,11 @@ type sendSticker struct {
 
 func (sv *sendSticker) marshalJSON() ([]byte, error) {
 	return json.Marshal(struct {
-		ChatId              interface{}  `json:"chat_id"`
-		Sticker             string       `json:"sticker"`
-		DisableNotification bool         `json:"disable_notification,omitempty"`
-		ReplyToMessageId    int64        `json:"reply_to_message_id,omitempty"`
-		ReplyMarkup         *interface{} `json:"reply_markup,omitempty"`
+		ChatId              interface{} `json:"chat_id"`
+		Sticker             string      `json:"sticker"`
+		DisableNotification bool        `json:"disable_notification,omitempty"`
+		ReplyToMessageId    int64       `json:"reply_to_message_id,omitempty"`
+		ReplyMarkup         interface{} `json:"reply_markup,omitempty"`
 	}{
 		ChatId:              sv.chatId,
 		Sticker:             sv.sticker,

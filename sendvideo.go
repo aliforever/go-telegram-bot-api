@@ -22,7 +22,7 @@ type sendVideo struct {
 	thumb               interface{}
 	disableNotification bool
 	replyToMessageId    int64
-	replyMarkup         *interface{}
+	replyMarkup         interface{}
 	file
 	videos []fileInfo
 	// DisableWebPagePreview bool         `json:"disable_web_page_preview,omitempty"`
@@ -30,20 +30,20 @@ type sendVideo struct {
 
 func (sv *sendVideo) marshalJSON() ([]byte, error) {
 	return json.Marshal(struct {
-		ChatId              interface{}  `json:"chat_id"`
-		Video               interface{}  `json:"video,omitempty"`
-		Caption             string       `json:"caption,omitempty"`
-		ParseMode           string       `json:"parse_mode,omitempty"`
-		Duration            int64        `json:"duration,omitempty"`
-		Width               int64        `json:"width,omitempty"`
-		Height              int64        `json:"height,omitempty"`
-		SupportsStreaming   bool         `json:"supports_streaming,omitempty"`
-		Performer           string       `json:"performer,omitempty"`
-		Title               string       `json:"title,omitempty"`
-		Thumb               interface{}  `json:"thumb,omitempty"`
-		DisableNotification bool         `json:"disable_notification,omitempty"`
-		ReplyToMessageId    int64        `json:"reply_to_message_id,omitempty"`
-		ReplyMarkup         *interface{} `json:"reply_markup,omitempty"`
+		ChatId              interface{} `json:"chat_id"`
+		Video               interface{} `json:"video,omitempty"`
+		Caption             string      `json:"caption,omitempty"`
+		ParseMode           string      `json:"parse_mode,omitempty"`
+		Duration            int64       `json:"duration,omitempty"`
+		Width               int64       `json:"width,omitempty"`
+		Height              int64       `json:"height,omitempty"`
+		SupportsStreaming   bool        `json:"supports_streaming,omitempty"`
+		Performer           string      `json:"performer,omitempty"`
+		Title               string      `json:"title,omitempty"`
+		Thumb               interface{} `json:"thumb,omitempty"`
+		DisableNotification bool        `json:"disable_notification,omitempty"`
+		ReplyToMessageId    int64       `json:"reply_to_message_id,omitempty"`
+		ReplyMarkup         interface{} `json:"reply_markup,omitempty"`
 	}{
 		ChatId:              sv.chatId,
 		Video:               sv.video,

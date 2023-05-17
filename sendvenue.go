@@ -17,22 +17,22 @@ type sendVenue struct {
 	foursquareType      string
 	disableNotification bool
 	replyToMessageId    int64
-	replyMarkup         *interface{}
+	replyMarkup         interface{}
 	// DisableWebPagePreview bool         `json:"disable_web_page_preview,omitempty"`
 }
 
 func (sv *sendVenue) marshalJSON() ([]byte, error) {
 	return json.Marshal(struct {
-		ChatId              interface{}  `json:"chat_id"`
-		Latitude            float64      `json:"latitude"`
-		Longitude           float64      `json:"longitude"`
-		Title               string       `json:"title"`
-		Address             string       `json:"address"`
-		FoursquareId        string       `json:"foursquare_id"`
-		FoursquareType      string       `json:"foursquare_type"`
-		DisableNotification bool         `json:"disable_notification,omitempty"`
-		ReplyToMessageId    int64        `json:"reply_to_message_id,omitempty"`
-		ReplyMarkup         *interface{} `json:"reply_markup,omitempty"`
+		ChatId              interface{} `json:"chat_id"`
+		Latitude            float64     `json:"latitude"`
+		Longitude           float64     `json:"longitude"`
+		Title               string      `json:"title"`
+		Address             string      `json:"address"`
+		FoursquareId        string      `json:"foursquare_id"`
+		FoursquareType      string      `json:"foursquare_type"`
+		DisableNotification bool        `json:"disable_notification,omitempty"`
+		ReplyToMessageId    int64       `json:"reply_to_message_id,omitempty"`
+		ReplyMarkup         interface{} `json:"reply_markup,omitempty"`
 	}{
 		ChatId:              sv.chatId,
 		Latitude:            sv.latitude,

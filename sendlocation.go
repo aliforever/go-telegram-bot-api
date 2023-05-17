@@ -14,19 +14,19 @@ type sendLocation struct {
 	livePeriod          int64
 	disableNotification bool
 	replyToMessageId    int64
-	replyMarkup         *interface{}
+	replyMarkup         interface{}
 	// DisableWebPagePreview bool         `json:"disable_web_page_preview,omitempty"`
 }
 
 func (sl *sendLocation) marshalJSON() ([]byte, error) {
 	return json.Marshal(struct {
-		ChatId              interface{}  `json:"chat_id"`
-		Latitude            float64      `json:"latitude"`
-		Longitude           float64      `json:"longitude"`
-		LivePeriod          int64        `json:"live_period"`
-		DisableNotification bool         `json:"disable_notification,omitempty"`
-		ReplyToMessageId    int64        `json:"reply_to_message_id,omitempty"`
-		ReplyMarkup         *interface{} `json:"reply_markup,omitempty"`
+		ChatId              interface{} `json:"chat_id"`
+		Latitude            float64     `json:"latitude"`
+		Longitude           float64     `json:"longitude"`
+		LivePeriod          int64       `json:"live_period"`
+		DisableNotification bool        `json:"disable_notification,omitempty"`
+		ReplyToMessageId    int64       `json:"reply_to_message_id,omitempty"`
+		ReplyMarkup         interface{} `json:"reply_markup,omitempty"`
 	}{
 		ChatId:              sl.chatId,
 		Latitude:            sl.latitude,

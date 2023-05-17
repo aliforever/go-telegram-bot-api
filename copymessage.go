@@ -17,7 +17,7 @@ type copyMessage struct {
 	disableNotification      bool
 	replyToMessageId         int64
 	allowSendingWithoutReply bool
-	replyMarkup              *interface{}
+	replyMarkup              interface{}
 }
 
 func (cm *copyMessage) marshalJSON() ([]byte, error) {
@@ -31,7 +31,7 @@ func (cm *copyMessage) marshalJSON() ([]byte, error) {
 		DisableNotification      bool                    `json:"disable_notification,omitempty"`
 		ReplyToMessageId         int64                   `json:"reply_to_message_id,omitempty"`
 		AllowSendingWithoutReply bool                    `json:"allow_sending_without_reply,omitempty"`
-		ReplyMarkup              *interface{}            `json:"reply_markup,omitempty"`
+		ReplyMarkup              interface{}             `json:"reply_markup,omitempty"`
 	}{
 		ChatId:                   cm.chatId,
 		FromChatId:               cm.fromChatId,

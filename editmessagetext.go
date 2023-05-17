@@ -14,18 +14,18 @@ type editMessageText struct {
 	text                  string
 	parseMode             string
 	disableWebPagePreview bool
-	replyMarkup           *interface{}
+	replyMarkup           interface{}
 }
 
 func (m *editMessageText) marshalJSON() ([]byte, error) {
 	return json.Marshal(struct {
-		ChatId                interface{}  `json:"chat_id"`
-		MessageId             int64        `json:"message_id"`
-		InlineMessageId       string       `json:"inline_message_id"`
-		Text                  string       `json:"text,omitempty"`
-		ParseMode             string       `json:"parse_mode,omitempty"`
-		DisableWebPagePreview bool         `json:"disable_web_page_preview,omitempty"`
-		ReplyMarkup           *interface{} `json:"reply_markup,omitempty"`
+		ChatId                interface{} `json:"chat_id"`
+		MessageId             int64       `json:"message_id"`
+		InlineMessageId       string      `json:"inline_message_id"`
+		Text                  string      `json:"text,omitempty"`
+		ParseMode             string      `json:"parse_mode,omitempty"`
+		DisableWebPagePreview bool        `json:"disable_web_page_preview,omitempty"`
+		ReplyMarkup           interface{} `json:"reply_markup,omitempty"`
 	}{
 		ChatId:                m.chatId,
 		MessageId:             m.messageId,
