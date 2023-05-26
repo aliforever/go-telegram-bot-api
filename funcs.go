@@ -99,6 +99,8 @@ func (tb *TelegramBot) getMessageResponse(resp *resty.Response, config Config) (
 		return nil, raw, err
 	}
 
+	response = &Response{}
+
 	switch v := responseVar.(type) {
 	case *[]structs.Message:
 		response.Messages = *v
