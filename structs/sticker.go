@@ -12,4 +12,5 @@ type Sticker struct {
 	SetName      string    `json:"set_name"`
 	IsAnimated   bool      `json:"is_animated"`
 	IsVideo      bool      `json:"is_video"`
+	Emoji        string    `json:"emoji"`
 }
