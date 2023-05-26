@@ -8,3 +8,7 @@ type MessageEntity struct {
 	User     User   `json:"user"`
 	Language string `json:"language"`
 }
+
+func (e MessageEntity) IsBotCommand() bool {
+	return e.Type == "bot_command"
+}

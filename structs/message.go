@@ -76,3 +76,23 @@ func (m *Message) IsSuperGroup() bool {
 func (m *Message) IsChannel() bool {
 	return m.Chat.Type == chatTypeChannel
 }
+
+func (m *Message) IsCommand() bool {
+	if m.Entities == nil || len(m.Entities) == 0 {
+		return false
+	}
+
+	entity := m.Entities[0]
+
+	return entity.Offset == 0 && entity.IsBotCommand()
+}
+
+func (m *Message) CommandInput() string {
+	if !m.IsCommand() {
+		return ""
+	}
+
+	entity := m.Entities[0]
+
+	return m.Text[entity.Length+1:]
+}
