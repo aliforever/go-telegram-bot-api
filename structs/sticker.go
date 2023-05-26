@@ -9,4 +9,7 @@ type Sticker struct {
 	Thumb        PhotoSize `json:"thumb"`
 	MimeType     string    `json:"mime_type"`
 	FileSize     int64     `json:"file_size"`
+	SetName      string    `json:"set_name"`
+	IsAnimated   bool      `json:"is_animated"`
+	IsVideo      bool      `json:"is_video"`
 }
