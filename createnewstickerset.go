@@ -2,41 +2,34 @@ package tgbotapi
 
 import (
 	"encoding/json"
+	"fmt"
+	"github.com/aliforever/go-telegram-bot-api/structs"
 	"io"
 	"time"
-
-	"github.com/aliforever/go-telegram-bot-api/structs"
 )
 
 type createNewStickerSet struct {
-	parent        *TelegramBot
-	userId        int64
-	name          string
-	title         string
-	pngSticker    interface{}
-	emojis        string
-	containsMasks bool
-	maskPosition  *structs.MaskPosition
-	pngFile       *fileInfo
+	parent *TelegramBot
+
+	userId   int64
+	name     string
+	title    string
+	stickers []inputSticker
+
+	fileInfo []fileInfo
 }
 
 func (sv *createNewStickerSet) marshalJSON() ([]byte, error) {
 	return json.Marshal(struct {
-		UserId        int64                 `json:"user_id"`
-		Name          string                `json:"name"`
-		Title         string                `json:"title"`
-		PngSticker    interface{}           `json:"png_sticker"`
-		Emojis        string                `json:"emojis"`
-		ContainsMasks bool                  `json:"contains_masks"`
-		MaskPosition  *structs.MaskPosition `json:"mask_position"`
+		UserId   int64          `json:"user_id"`
+		Name     string         `json:"name"`
+		Title    string         `json:"title"`
+		Stickers []inputSticker `json:"stickers"`
 	}{
-		UserId:        sv.userId,
-		Name:          sv.name,
-		Title:         sv.title,
-		PngSticker:    sv.pngSticker,
-		Emojis:        sv.emojis,
-		ContainsMasks: sv.containsMasks,
-		MaskPosition:  sv.maskPosition,
+		UserId:   sv.userId,
+		Name:     sv.name,
+		Title:    sv.title,
+		Stickers: sv.stickers,
 	})
 }
 
@@ -54,10 +47,7 @@ func (sv *createNewStickerSet) endpoint() string {
 }
 
 func (sv *createNewStickerSet) medias() []fileInfo {
-	if sv.pngFile != nil {
-		return []fileInfo{*sv.pngFile}
-	}
-	return nil
+	return sv.fileInfo
 }
 
 func (sv *createNewStickerSet) SetUserId(userId int64) *createNewStickerSet {
@@ -75,44 +65,73 @@ func (sv *createNewStickerSet) SetTitle(title string) *createNewStickerSet {
 	return sv
 }
 
-func (sv *createNewStickerSet) SetEmojis(emojis string) *createNewStickerSet {
-	sv.emojis = emojis
+func (sv *createNewStickerSet) AddStickerWithFileId(
+	fileID string,
+	emojies []string,
+	maskPosition *structs.MaskPosition,
+	keywords []string,
+) *createNewStickerSet {
+
+	sv.stickers = append(sv.stickers, inputSticker{
+		Sticker:      fileID,
+		EmojiList:    emojies,
+		MaskPosition: maskPosition,
+		Keywords:     keywords,
+	})
+
 	return sv
 }
 
-func (sv *createNewStickerSet) SetContainsMasks(b bool) *createNewStickerSet {
-	sv.containsMasks = b
+func (sv *createNewStickerSet) AddStickerWithFilePath(
+	filePath string,
+	emojies []string,
+	maskPosition *structs.MaskPosition,
+	keywords []string,
+) *createNewStickerSet {
+
+	fieldName := "photo_" + time.Now().Format("2006_01_02_15_04_05") + randomString()
+
+	sv.stickers = append(sv.stickers, inputSticker{
+		Sticker:      fmt.Sprintf("attach://%s", fieldName),
+		EmojiList:    emojies,
+		MaskPosition: maskPosition,
+		Keywords:     keywords,
+	})
+
+	sv.fileInfo = append(sv.fileInfo, fileInfo{
+		Field: fieldName,
+		Path:  filePath,
+	})
+
 	return sv
 }
 
-/*func (sv *createNewStickerSet) SetMaskPosition(mask *structs.MaskPosition) *createNewStickerSet {
-	sv.maskPosition = mask
-	return sv
-}*/
+func (sv *createNewStickerSet) AddStickerWithFileReader(
+	filename string,
+	fileReader io.Reader,
+	emojies []string,
+	maskPosition *structs.MaskPosition,
+	keywords []string,
+) *createNewStickerSet {
 
-func (sv *createNewStickerSet) SetPngStickerId(pngStickerId string) *createNewStickerSet {
-	sv.pngSticker = pngStickerId
-	return sv
-}
+	fieldName := "photo_" + time.Now().Format("2006_01_02_15_04_05") + randomString()
 
-func (sv *createNewStickerSet) SetPngStickerFilePath(stickerFilePath string) *createNewStickerSet {
-	sv.pngFile = &fileInfo{
-		Field: "sticker",
-		Path:  stickerFilePath,
+	sv.stickers = append(sv.stickers, inputSticker{
+		Sticker:      fmt.Sprintf("attach://%s", fieldName),
+		EmojiList:    emojies,
+		MaskPosition: maskPosition,
+		Keywords:     keywords,
+	})
+
+	if filename == "" {
+		filename = time.Now().Format("2006_01_02_15_04_05")
 	}
-	sv.pngSticker = "attach://sticker"
-	return sv
-}
 
-func (sv *createNewStickerSet) SetPngStickerFileReader(stickerFileReader io.Reader, fileName string) *createNewStickerSet {
-	if fileName == "" {
-		fileName = time.Now().Format("2006_01_02_15_04_05")
-	}
-	sv.pngFile = &fileInfo{
-		Field:  "sticker",
-		Reader: stickerFileReader,
-		Name:   fileName,
-	}
-	sv.pngSticker = "attach://sticker"
+	sv.fileInfo = append(sv.fileInfo, fileInfo{
+		Field:  fieldName,
+		Reader: fileReader,
+		Name:   filename,
+	})
+
 	return sv
 }

@@ -372,6 +372,11 @@ func (tb *TelegramBot) GetStickerSet() (m *getStickerSet) {
 	return
 }
 
+func (tb *TelegramBot) CreateNewStickerSet() (m *createNewStickerSet) {
+	m = &createNewStickerSet{parent: tb}
+	return
+}
+
 func (tb *TelegramBot) UploadStickerFile() (m *uploadStickerFile) {
 	m = &uploadStickerFile{parent: tb}
 	return
