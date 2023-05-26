@@ -99,36 +99,33 @@ func (tb *TelegramBot) getMessageResponse(resp *resty.Response, config Config) (
 		return nil, raw, err
 	}
 
-	switch responseVar.(type) {
+	switch v := responseVar.(type) {
 	case *[]structs.Message:
-		messages := responseVar.(*[]structs.Message)
-		response.Messages = *messages
+		response.Messages = *v
 	case *[]Update:
-		updates := responseVar.(*[]Update)
-		response.Updates = *updates
+		response.Updates = *v
 	case *[]structs.ChatMember:
-		updates := responseVar.(*[]structs.ChatMember)
-		response.ChatMembers = *updates
+		response.ChatMembers = *v
 	case *structs.ChatMember:
-		response.ChatMember = responseVar.(*structs.ChatMember)
+		response.ChatMember = v
 	case *structs.Message:
-		response.Message = responseVar.(*structs.Message)
+		response.Message = v
 	case *structs.UserProfilePhotos:
-		response.UserProfilePhotos = responseVar.(*structs.UserProfilePhotos)
+		response.UserProfilePhotos = v
 	case *structs.File:
-		response.File = responseVar.(*structs.File)
+		response.File = v
 	case *structs.Chat:
-		response.Chat = responseVar.(*structs.Chat)
+		response.Chat = v
 	case *structs.User:
-		response.User = responseVar.(*structs.User)
+		response.User = v
 	case *structs.StickerSet:
-		response.StickerSet = responseVar.(*structs.StickerSet)
+		response.StickerSet = v
 	case *structs.MessageId:
-		response.MessageId = responseVar.(*structs.MessageId)
+		response.MessageId = v
 	case *bool:
-		response.Bool = responseVar.(*bool)
+		response.Bool = v
 	case *int64:
-		response.Int = responseVar.(*int64)
+		response.Int = v
 	default:
 		err = errors.New(fmt.Sprintf(
 			"unknown response result %s - %T - %+v", string(genericResp.Result), responseVar, config,

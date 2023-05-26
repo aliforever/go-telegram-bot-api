@@ -82,6 +82,7 @@ func New(apiToken string) (tb *TelegramBot, err error) {
 
 	if resp.User == nil {
 		err = errors.New("empty_user_response")
+		return nil, err
 	}
 
 	tb = bot
