@@ -22,21 +22,14 @@ type addStickerToSet struct {
 }
 
 func (sv *addStickerToSet) marshalJSON() ([]byte, error) {
-	type sticker struct {
-		Sticker      interface{}           `json:"sticker"`
-		EmojiList    []string              `json:"emojis"`
-		MaskPosition *structs.MaskPosition `json:"mask_position"`
-		Keywords     []string              `json:"keywords"`
-	}
-
 	return json.Marshal(struct {
-		UserId  int64   `json:"user_id"`
-		Name    string  `json:"name"`
-		Sticker sticker `json:"sticker"`
+		UserId  int64        `json:"user_id"`
+		Name    string       `json:"name"`
+		Sticker inputSticker `json:"sticker"`
 	}{
 		UserId: sv.userId,
 		Name:   sv.name,
-		Sticker: sticker{
+		Sticker: inputSticker{
 			Sticker:      sv.sticker,
 			EmojiList:    sv.emojis,
 			MaskPosition: sv.maskPosition,
@@ -113,5 +106,10 @@ func (sv *addStickerToSet) SetPngStickerFileReader(stickerFileReader io.Reader, 
 
 	sv.sticker = "attach://sticker"
 
+	return sv
+}
+
+func (sv *addStickerToSet) SetKeywords(keywords ...string) *addStickerToSet {
+	sv.keywords = keywords
 	return sv
 }
