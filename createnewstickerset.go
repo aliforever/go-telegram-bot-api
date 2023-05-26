@@ -11,25 +11,34 @@ import (
 type createNewStickerSet struct {
 	parent *TelegramBot
 
-	userId   int64
-	name     string
-	title    string
-	stickers []inputSticker
+	userId          int64
+	name            string
+	title           string
+	stickers        []inputSticker
+	format          string
+	kind            string
+	needsRepainting bool
 
 	fileInfo []fileInfo
 }
 
 func (sv *createNewStickerSet) marshalJSON() ([]byte, error) {
 	return json.Marshal(struct {
-		UserId   int64          `json:"user_id"`
-		Name     string         `json:"name"`
-		Title    string         `json:"title"`
-		Stickers []inputSticker `json:"stickers"`
+		UserId          int64          `json:"user_id"`
+		Name            string         `json:"name"`
+		Title           string         `json:"title"`
+		Stickers        []inputSticker `json:"stickers"`
+		StickerFormat   string         `json:"sticker_format"`
+		StickerKind     string         `json:"sticker_type"`
+		NeedsRepainting bool           `json:"needs_repainting"`
 	}{
-		UserId:   sv.userId,
-		Name:     sv.name,
-		Title:    sv.title,
-		Stickers: sv.stickers,
+		UserId:          sv.userId,
+		Name:            sv.name,
+		Title:           sv.title,
+		Stickers:        sv.stickers,
+		StickerFormat:   sv.format,
+		StickerKind:     sv.kind,
+		NeedsRepainting: sv.needsRepainting,
 	})
 }
 
@@ -133,5 +142,60 @@ func (sv *createNewStickerSet) AddStickerWithFileReader(
 		Name:   filename,
 	})
 
+	return sv
+}
+
+func (sv *createNewStickerSet) SetFormat(format string) *createNewStickerSet {
+	sv.format = format
+	return sv
+}
+
+func (sv *createNewStickerSet) SetFormatStatic() *createNewStickerSet {
+	sv.format = "static"
+	return sv
+}
+
+func (sv *createNewStickerSet) SetFormatAnimated() *createNewStickerSet {
+	sv.format = "animated"
+	return sv
+}
+
+func (sv *createNewStickerSet) SetFormatVideo() *createNewStickerSet {
+	sv.format = "video"
+	return sv
+}
+
+func (sv *createNewStickerSet) SetType(kind string) *createNewStickerSet {
+	sv.kind = kind
+	return sv
+}
+
+func (sv *createNewStickerSet) SetTypeRegular() *createNewStickerSet {
+	sv.kind = "regular"
+	return sv
+}
+
+func (sv *createNewStickerSet) SetTypeMask() *createNewStickerSet {
+	sv.kind = "mask"
+	return sv
+}
+
+func (sv *createNewStickerSet) SetTypeCustomEmoji() *createNewStickerSet {
+	sv.kind = "custom_emoji"
+	return sv
+}
+
+func (sv *createNewStickerSet) SetNeedsRepainting(needsRepainting bool) *createNewStickerSet {
+	sv.needsRepainting = needsRepainting
+	return sv
+}
+
+func (sv *createNewStickerSet) NeedsRepainting() *createNewStickerSet {
+	sv.needsRepainting = true
+	return sv
+}
+
+func (sv *createNewStickerSet) DoesntNeedRepainting() *createNewStickerSet {
+	sv.needsRepainting = false
 	return sv
 }
