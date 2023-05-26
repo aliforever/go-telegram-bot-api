@@ -94,5 +94,9 @@ func (m *Message) CommandInput() string {
 
 	entity := m.Entities[0]
 
+	if int(entity.Length+1) > len(m.Text) {
+		return ""
+	}
+
 	return m.Text[entity.Length+1:]
 }
