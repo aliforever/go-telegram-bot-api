@@ -367,8 +367,23 @@ func (tb *TelegramBot) Sticker() (m *sendSticker) {
 	return
 }
 
-func (tb *TelegramBot) StickerFile() (m *uploadStickerFile) {
+func (tb *TelegramBot) GetStickerSet() (m *getStickerSet) {
+	m = &getStickerSet{parent: tb}
+	return
+}
+
+func (tb *TelegramBot) UploadStickerFile() (m *uploadStickerFile) {
 	m = &uploadStickerFile{parent: tb}
+	return
+}
+
+func (tb *TelegramBot) DeleteStickerFromSet() (m *deleteStickerFromSet) {
+	m = &deleteStickerFromSet{parent: tb}
+	return
+}
+
+func (tb *TelegramBot) AddStickerToSet() (m *addStickerToSet) {
+	m = &addStickerToSet{parent: tb}
 	return
 }
 

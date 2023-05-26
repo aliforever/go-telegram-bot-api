@@ -17,8 +17,8 @@ type sendPhoto struct {
 	disableNotification   bool
 	replyToMessageId      int64
 	replyMarkup           interface{}
-	file
-	photos []fileInfo
+
+	fileInfo *fileInfo
 }
 
 func (sph *sendPhoto) marshalJSON() ([]byte, error) {
@@ -56,10 +56,11 @@ func (sph *sendPhoto) endpoint() string {
 }
 
 func (sph *sendPhoto) medias() []fileInfo {
-	for i := range sph.photos {
-		sph.photos[i].Field = "photo"
+	if sph.fileInfo != nil {
+		return []fileInfo{*sph.fileInfo}
 	}
-	return sph.photos
+
+	return nil
 }
 
 func (sph *sendPhoto) SetChatId(chatId int64) *sendPhoto {
@@ -78,23 +79,23 @@ func (sph *sendPhoto) SetPhotoId(photoId string) *sendPhoto {
 }
 
 func (sph *sendPhoto) SetPhotoFilePath(photoFilePath string) *sendPhoto {
-	if sph.photos == nil {
-		sph.photos = []fileInfo{}
+	sph.fileInfo = &fileInfo{
+		Field: "photo",
+		Path:  photoFilePath,
 	}
-	sph.photos = append(sph.photos, fileInfo{
-		Path: photoFilePath,
-	})
+	sph.photo = "attach://photo"
+
 	return sph
 }
 
 func (sph *sendPhoto) SetPhotoReader(phr io.Reader, photoName string) *sendPhoto {
-	if sph.photos == nil {
-		sph.photos = []fileInfo{}
-	}
-	sph.photos = append(sph.photos, fileInfo{
+	sph.fileInfo = &fileInfo{
+		Field:  "photo",
 		Reader: phr,
 		Name:   photoName,
-	})
+	}
+	sph.photo = "attach://photo"
+
 	return sph
 }
 

@@ -78,29 +78,27 @@ func (tb *TelegramBot) getMessageResponse(resp *resty.Response, config Config) (
 		return
 	}
 
-	response = &Response{}
+	var genericResp *genericResponse
 
-	err = json.NewDecoder(bytes.NewReader(raw)).Decode(response)
+	err = json.NewDecoder(bytes.NewReader(raw)).Decode(&genericResp)
 	if err != nil {
 		return
 	}
 
-	if !response.Ok {
-		err = responses.Error{
-			ErrorCode:   response.ErrorCode,
-			Description: response.Description,
+	if !genericResp.Ok {
+		return nil, raw, responses.Error{
+			ErrorCode:   genericResp.ErrorCode,
+			Description: genericResp.Description,
 		}
-		response = nil
-		return
 	}
 
 	var responseVar = config.response()
-	err = json.Unmarshal(response.Result, &responseVar)
+
+	err = json.Unmarshal(genericResp.Result, &responseVar)
 	if err != nil {
 		return nil, raw, err
 	}
 
-	// fmt.Println(fmt.Sprintf("%T\n%T\n%s", response.Result, responseVar, string(response.Result)))
 	switch responseVar.(type) {
 	case *[]structs.Message:
 		messages := responseVar.(*[]structs.Message)
@@ -132,7 +130,9 @@ func (tb *TelegramBot) getMessageResponse(resp *resty.Response, config Config) (
 	case *int64:
 		response.Int = responseVar.(*int64)
 	default:
-		err = errors.New(fmt.Sprintf("unknown response result %s - %T - %+v", string(response.Result), responseVar, config))
+		err = errors.New(fmt.Sprintf(
+			"unknown response result %s - %T - %+v", string(genericResp.Result), responseVar, config,
+		))
 	}
 	return
 }

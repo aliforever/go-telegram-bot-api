@@ -9,21 +9,24 @@ import (
 )
 
 type uploadStickerFile struct {
-	parent     *TelegramBot
-	userId     int64
-	pngSticker interface{}
-	file
+	parent *TelegramBot
+
+	userId        int64
+	sticker       interface{}
+	stickerFormat string
+
 	fileInfo *fileInfo
-	// DisableWebPagePreview bool         `json:"disable_web_page_preview,omitempty"`
 }
 
 func (sv *uploadStickerFile) marshalJSON() ([]byte, error) {
 	return json.Marshal(struct {
-		UserId     int64       `json:"user_id"`
-		PngSticker interface{} `json:"png_sticker"`
+		UserId        int64       `json:"user_id"`
+		Sticker       interface{} `json:"sticker"`
+		StickerFormat string      `json:"sticker_format"`
 	}{
-		UserId:     sv.userId,
-		PngSticker: sv.pngSticker,
+		UserId:        sv.userId,
+		Sticker:       sv.sticker,
+		StickerFormat: sv.stickerFormat,
 	})
 }
 
@@ -43,6 +46,7 @@ func (sv *uploadStickerFile) medias() []fileInfo {
 	if sv.fileInfo != nil {
 		return []fileInfo{*sv.fileInfo}
 	}
+
 	return nil
 }
 
@@ -51,12 +55,19 @@ func (sv *uploadStickerFile) SetUserId(userId int64) *uploadStickerFile {
 	return sv
 }
 
+func (sv *uploadStickerFile) SetStickerId(stickerID string) *uploadStickerFile {
+	sv.sticker = stickerID
+	return sv
+}
+
 func (sv *uploadStickerFile) SetStickerFilePath(stickerFilePath string) *uploadStickerFile {
 	sv.fileInfo = &fileInfo{
 		Field: "sticker",
 		Path:  stickerFilePath,
 	}
-	sv.pngSticker = "attach://sticker"
+
+	sv.sticker = "attach://sticker"
+
 	return sv
 }
 
@@ -64,12 +75,38 @@ func (sv *uploadStickerFile) SetStickerFileReader(stickerFileReader io.Reader, f
 	if fileName == "" {
 		fileName = time.Now().Format("2006_01_02_15_04_05")
 	}
+
 	sv.fileInfo = &fileInfo{
 		Field:  "sticker",
 		Reader: stickerFileReader,
 		Name:   fileName,
 	}
-	sv.pngSticker = "attach://sticker"
+
+	sv.sticker = "attach://sticker"
+
+	return sv
+}
+
+func (sv *uploadStickerFile) SetStickerFormat(stickerFormat string) *uploadStickerFile {
+	sv.stickerFormat = stickerFormat
+	return sv
+}
+
+// SetStickerFormatStatic sets the sticker format to "static"
+func (sv *uploadStickerFile) SetStickerFormatStatic() *uploadStickerFile {
+	sv.stickerFormat = "static"
+	return sv
+}
+
+// SetStickerFormatAnimated sets the sticker format to "animated"
+func (sv *uploadStickerFile) SetStickerFormatAnimated() *uploadStickerFile {
+	sv.stickerFormat = "animated"
+	return sv
+}
+
+// SetStickerFormatVideo sets the sticker format to "video"
+func (sv *uploadStickerFile) SetStickerFormatVideo() *uploadStickerFile {
+	sv.stickerFormat = "video"
 	return sv
 }
 

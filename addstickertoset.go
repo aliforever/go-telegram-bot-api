@@ -9,28 +9,39 @@ import (
 )
 
 type addStickerToSet struct {
-	parent       *TelegramBot
+	parent *TelegramBot
+
 	userId       int64
 	name         string
-	pngSticker   interface{}
-	emojis       string
+	sticker      interface{}
+	emojis       []string
 	maskPosition *structs.MaskPosition
-	pngFile      *fileInfo
+	keywords     []string
+
+	fileInfo *fileInfo
 }
 
 func (sv *addStickerToSet) marshalJSON() ([]byte, error) {
-	return json.Marshal(struct {
-		UserId       int64                 `json:"user_id"`
-		Name         string                `json:"name"`
-		PngSticker   interface{}           `json:"png_sticker"`
-		Emojis       string                `json:"emojis"`
+	type sticker struct {
+		Sticker      interface{}           `json:"sticker"`
+		EmojiList    []string              `json:"emojis"`
 		MaskPosition *structs.MaskPosition `json:"mask_position"`
+		Keywords     []string              `json:"keywords"`
+	}
+
+	return json.Marshal(struct {
+		UserId  int64   `json:"user_id"`
+		Name    string  `json:"name"`
+		Sticker sticker `json:"sticker"`
 	}{
-		UserId:       sv.userId,
-		Name:         sv.name,
-		PngSticker:   sv.pngSticker,
-		Emojis:       sv.emojis,
-		MaskPosition: sv.maskPosition,
+		UserId: sv.userId,
+		Name:   sv.name,
+		Sticker: sticker{
+			Sticker:      sv.sticker,
+			EmojiList:    sv.emojis,
+			MaskPosition: sv.maskPosition,
+			Keywords:     sv.keywords,
+		},
 	})
 }
 
@@ -47,8 +58,8 @@ func (sv *addStickerToSet) endpoint() string {
 }
 
 func (sv *addStickerToSet) medias() []fileInfo {
-	if sv.pngFile != nil {
-		return []fileInfo{*sv.pngFile}
+	if sv.fileInfo != nil {
+		return []fileInfo{*sv.fileInfo}
 	}
 	return nil
 }
@@ -63,27 +74,29 @@ func (sv *addStickerToSet) SetName(name string) *addStickerToSet {
 	return sv
 }
 
-func (sv *addStickerToSet) SetEmojis(emojis string) *addStickerToSet {
+func (sv *addStickerToSet) SetEmojis(emojis ...string) *addStickerToSet {
 	sv.emojis = emojis
 	return sv
 }
 
-/*func (sv *addStickerToSet) SetMaskPosition(mask *structs.MaskPosition) *addStickerToSet {
+func (sv *addStickerToSet) SetMaskPosition(mask *structs.MaskPosition) *addStickerToSet {
 	sv.maskPosition = mask
 	return sv
-}*/
+}
 
 func (sv *addStickerToSet) SetPngStickerId(pngStickerId string) *addStickerToSet {
-	sv.pngSticker = pngStickerId
+	sv.sticker = pngStickerId
 	return sv
 }
 
 func (sv *addStickerToSet) SetPngStickerFilePath(stickerFilePath string) *addStickerToSet {
-	sv.pngFile = &fileInfo{
+	sv.fileInfo = &fileInfo{
 		Field: "sticker",
 		Path:  stickerFilePath,
 	}
-	sv.pngSticker = "attach://sticker"
+
+	sv.sticker = "attach://sticker"
+
 	return sv
 }
 
@@ -91,11 +104,14 @@ func (sv *addStickerToSet) SetPngStickerFileReader(stickerFileReader io.Reader, 
 	if fileName == "" {
 		fileName = time.Now().Format("2006_01_02_15_04_05")
 	}
-	sv.pngFile = &fileInfo{
+
+	sv.fileInfo = &fileInfo{
 		Field:  "sticker",
 		Reader: stickerFileReader,
 		Name:   fileName,
 	}
-	sv.pngSticker = "attach://sticker"
+
+	sv.sticker = "attach://sticker"
+
 	return sv
 }

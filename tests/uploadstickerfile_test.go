@@ -14,7 +14,7 @@ func TestUploadStickerFile(t *testing.T) {
 		return
 	}
 	// AgACAgQAAxkDAAECEudeYF9HGJ7VZzj6XzLdKNrNiy4IoAACDrIxGyWdCVNLOHwy3uUB1V0pthsABAEAAwIAA20AA1LzAwABGAQ
-	p := bot.StickerFile()
+	p := bot.UploadStickerFile()
 	p.SetUserId(Tests{}.Defaults().UserId).SetStickerFilePath("photo.png")
 	m, err := bot.Send(p)
 	if err != nil {
