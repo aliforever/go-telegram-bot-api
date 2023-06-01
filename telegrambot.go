@@ -501,8 +501,8 @@ func (tb *TelegramBot) LogrusPeriodicLogger(chatID int64, interval time.Duration
 }
 
 // LogrusLogger is a logger implementing logrus.Hook that logs immediately
-func (tb *TelegramBot) LogrusLogger(chatID int64) logrus.Hook {
-	return NewLogrusHook(tb, chatID)
+func (tb *TelegramBot) LogrusLogger(chatID int64, levels ...logrus.Level) logrus.Hook {
+	return NewLogrusHook(tb, chatID, levels...)
 }
 
 func (tb *TelegramBot) logErrBytes(rawBytes []byte, err error) {
