@@ -496,8 +496,14 @@ func (tb *TelegramBot) SendWithOptions(config Config, options *SendOptions) (res
 }
 
 // LogrusPeriodicLogger is a logger implementing logrus.Hook that logs periodically
-func (tb *TelegramBot) LogrusPeriodicLogger(chatID int64, interval time.Duration, title string) logrus.Hook {
-	return NewLogrusPeriodicHook(tb, chatID, interval, title)
+func (tb *TelegramBot) LogrusPeriodicLogger(
+	chatID int64,
+	interval time.Duration,
+	title string,
+	levels ...logrus.Level,
+) logrus.Hook {
+
+	return NewLogrusPeriodicHook(tb, chatID, interval, title, levels...)
 }
 
 // LogrusLogger is a logger implementing logrus.Hook that logs immediately
