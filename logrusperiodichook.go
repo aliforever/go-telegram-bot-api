@@ -14,10 +14,25 @@ type LogrusPeriodicHook struct {
 	interval time.Duration
 	logs     chan string
 	title    string
+	levels   []logrus.Level
 }
 
-func NewLogrusPeriodicHook(bot *TelegramBot, chatID int64, interval time.Duration, title string) logrus.Hook {
-	tp := LogrusPeriodicHook{bot: bot, chatID: chatID, interval: interval, logs: make(chan string), title: title}
+func NewLogrusPeriodicHook(
+	bot *TelegramBot,
+	chatID int64,
+	interval time.Duration,
+	title string,
+	levels ...logrus.Level,
+) logrus.Hook {
+
+	tp := LogrusPeriodicHook{
+		bot:      bot,
+		chatID:   chatID,
+		interval: interval,
+		logs:     make(chan string),
+		title:    title,
+		levels:   levels,
+	}
 
 	go tp.periodicSender()
 
@@ -25,6 +40,10 @@ func NewLogrusPeriodicHook(bot *TelegramBot, chatID int64, interval time.Duratio
 }
 
 func (t LogrusPeriodicHook) Levels() []logrus.Level {
+	if len(t.levels) > 0 {
+		return t.levels
+	}
+
 	return []logrus.Level{
 		logrus.PanicLevel,
 		logrus.FatalLevel,
