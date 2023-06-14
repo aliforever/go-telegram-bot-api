@@ -10,6 +10,7 @@ type getUpdates struct {
 	limit          int64
 	timeout        int64
 	allowedUpdates []string
+	onError        func(error) bool
 }
 
 func (gu *getUpdates) Offset() int64 {
@@ -26,6 +27,12 @@ func (gu *getUpdates) Timeout() int64 {
 
 func (gu *getUpdates) AllowedUpdates() []string {
 	return gu.allowedUpdates
+}
+
+func (gu *getUpdates) SetOnError(onError func(error) bool) *getUpdates {
+	gu.onError = onError
+
+	return gu
 }
 
 func (gu *getUpdates) marshalJSON() ([]byte, error) {
@@ -83,13 +90,32 @@ func (gu *getUpdates) LongPoll() error {
 	return gu.pollUpdates()
 }
 
+func (gu *getUpdates) handleErrorAndReturn(err error) *bool {
+	if err == nil {
+		return nil
+	}
+
+	if gu.onError != nil {
+		result := gu.onError(err)
+		return &result
+	}
+
+	shouldReturn := true
+
+	return &shouldReturn
+}
+
 func (gu *getUpdates) pollUpdates() error {
 	var update Update
 
 	for true {
 		resp, err := gu.parent.Send(gu)
-		if err != nil {
-			return err
+		if shouldReturn := gu.handleErrorAndReturn(err); shouldReturn != nil {
+			if *shouldReturn {
+				return err
+			}
+
+			continue
 		}
 
 		for _, update = range resp.Updates {
