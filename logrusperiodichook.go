@@ -57,13 +57,7 @@ func (t LogrusPeriodicHook) Levels() []logrus.Level {
 
 func (t LogrusPeriodicHook) Fire(entry *logrus.Entry) error {
 	go func() {
-		var data string
-		data, err := entry.String()
-		if err != nil {
-			data = entry.Message
-		}
-
-		t.logs <- fmt.Sprintf("%s - %s", time.Now().Format("2006-01-02 15:04:05"), data)
+		t.logs <- fmt.Sprintf("%s - %s", time.Now().Format("2006-01-02 15:04:05"), entry.Message)
 	}()
 
 	return nil
