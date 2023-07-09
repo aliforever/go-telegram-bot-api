@@ -2,6 +2,7 @@ package tgbotapi
 
 import (
 	"encoding/json"
+	"github.com/aliforever/go-telegram-bot-api/tools"
 
 	"github.com/aliforever/go-telegram-bot-api/structs"
 )
@@ -138,7 +139,8 @@ func (sv *sendPoll) SetReplyToMessageId(messageId int64) *sendPoll {
 }
 
 func (sv *sendPoll) SetReplyMarkup(markup interface{}) *sendPoll {
-	sv.replyMarkup = &markup
+	sv.replyMarkup = tools.ParseReplyMarkup(markup)
+
 	return sv
 }
 

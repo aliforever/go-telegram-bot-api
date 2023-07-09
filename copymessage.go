@@ -2,6 +2,7 @@ package tgbotapi
 
 import (
 	"encoding/json"
+	"github.com/aliforever/go-telegram-bot-api/tools"
 
 	"github.com/aliforever/go-telegram-bot-api/structs"
 )
@@ -122,11 +123,8 @@ func (cm *copyMessage) SetMessage(message *structs.Message) *copyMessage {
 }
 
 func (cm *copyMessage) SetReplyMarkup(markup interface{}) *copyMessage {
-	if markup == nil {
-		return cm
-	}
+	cm.replyMarkup = tools.ParseReplyMarkup(markup)
 
-	cm.replyMarkup = markup
 	return cm
 }
 

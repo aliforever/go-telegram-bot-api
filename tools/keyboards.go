@@ -97,3 +97,20 @@ func (k Keyboards) shouldBreakRow(
 
 	return defaultCond
 }
+
+func ParseReplyMarkup(markup interface{}) interface{} {
+	switch val := markup.(type) {
+	case *structs.ReplyKeyboardMarkup:
+		if val == nil {
+			return nil
+		}
+	case *structs.InlineKeyboardMarkup:
+		if val == nil {
+			return nil
+		}
+	default:
+		return nil
+	}
+
+	return markup
+}

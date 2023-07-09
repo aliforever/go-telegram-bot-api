@@ -2,6 +2,7 @@ package tgbotapi
 
 import (
 	"encoding/json"
+	"github.com/aliforever/go-telegram-bot-api/tools"
 
 	"github.com/aliforever/go-telegram-bot-api/structs"
 )
@@ -62,7 +63,8 @@ func (smll *stopMessageLiveLocation) SetInlineMessageId(inlineMessageId string) 
 }
 
 func (smll *stopMessageLiveLocation) SetReplyMarkup(markup interface{}) *stopMessageLiveLocation {
-	smll.replyMarkup = &markup
+	smll.replyMarkup = tools.ParseReplyMarkup(markup)
+
 	return smll
 }
 

@@ -2,6 +2,7 @@ package tgbotapi
 
 import (
 	"encoding/json"
+	"github.com/aliforever/go-telegram-bot-api/tools"
 	"io"
 
 	"github.com/aliforever/go-telegram-bot-api/structs"
@@ -192,7 +193,8 @@ func (sd *sendAnimation) SetReplyToMessageId(messageId int64) *sendAnimation {
 }
 
 func (sd *sendAnimation) SetReplyMarkup(markup interface{}) *sendAnimation {
-	sd.replyMarkup = &markup
+	sd.replyMarkup = tools.ParseReplyMarkup(markup)
+
 	return sd
 }
 
