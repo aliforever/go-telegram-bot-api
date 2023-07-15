@@ -5,14 +5,13 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"github.com/go-resty/resty/v2"
 	"github.com/sirupsen/logrus"
 	"math/rand"
 	"net/http"
 	"time"
 
 	"github.com/aliforever/go-telegram-bot-api/tools"
-
-	"github.com/go-resty/resty/v2"
 )
 
 type TelegramBot struct {

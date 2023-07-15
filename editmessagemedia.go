@@ -80,6 +80,12 @@ func (m *editMessageMedia) InputVideo() *inputMediaVideo {
 	return video
 }
 
+func (m *editMessageMedia) InputAnimation() *inputMediaAnimation {
+	video := &inputMediaAnimation{}
+	m.media = video
+	return video
+}
+
 func (m *editMessageMedia) SetChatId(chatId int64) *editMessageMedia {
 	m.chatId = chatId
 	return m
