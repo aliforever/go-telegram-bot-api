@@ -3,11 +3,12 @@ package structs
 import "fmt"
 
 type File struct {
-	FileId       string             `json:"file_id"`
-	FileUniqueId string             `json:"file_unique_id"`
-	FileSize     int64              `json:"file_size"`
-	FilePath     string             `json:"file_path"`
-	Download     func(string) error `json:"-"`
+	FileId        string             `json:"file_id"`
+	FileUniqueId  string             `json:"file_unique_id"`
+	FileSize      int64              `json:"file_size"`
+	FilePath      string             `json:"file_path"`
+	Download      func(string) error `json:"-"`
+	DownloadBytes func() ([]byte, error)
 }
 
 // DownloadPath returns the path to download the file to.
