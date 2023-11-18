@@ -1,6 +1,9 @@
 package tools
 
-import "github.com/aliforever/go-telegram-bot-api/structs"
+import (
+	"github.com/aliforever/go-telegram-bot-api/structs"
+	"slices"
+)
 
 type Keyboards struct {
 }
@@ -14,7 +17,11 @@ func (k Keyboards) NewInlineKeyboardFromSlicesOfMaps(slicesOfMaps [][]map[string
 }
 
 func (k Keyboards) NewInlineKeyboardFromSlicesOfMapWithFormation(
-	slicesOfMaps []map[string]string, maxPerRow int, formation []int) *structs.InlineKeyboardMarkup {
+	slicesOfMaps []map[string]string,
+	maxPerRow int,
+	formation []int,
+	reverseButtonOrderInRows bool,
+) *structs.InlineKeyboardMarkup {
 
 	var rows [][]map[string]string
 	var row []map[string]string
@@ -23,12 +30,20 @@ func (k Keyboards) NewInlineKeyboardFromSlicesOfMapWithFormation(
 		row = append(row, s)
 
 		if k.shouldBreakRow(len(row), len(rows), maxPerRow, formation) || s == nil {
+			if reverseButtonOrderInRows {
+				slices.Reverse(row)
+			}
+
 			rows = append(rows, row)
 			row = []map[string]string{}
 		}
 	}
 
 	if len(row) > 0 {
+		if reverseButtonOrderInRows {
+			slices.Reverse(row)
+		}
+
 		rows = append(rows, row)
 	}
 
@@ -41,7 +56,12 @@ func (k Keyboards) NewReplyKeyboardFromSlicesOfStrings(slicesOfStrings [][]strin
 
 // NewReplyKeyboardFromSliceOfStrings creates a new ReplyKeyboardMarkup from a slice of strings.
 // The slice of strings will be divided into slices of strings with the length of bpr (buttons per row).
-func (k Keyboards) NewReplyKeyboardFromSliceOfStrings(sliceOfStrings []string, bpr int) *structs.ReplyKeyboardMarkup {
+func (k Keyboards) NewReplyKeyboardFromSliceOfStrings(
+	sliceOfStrings []string,
+	bpr int,
+	reverseButtonOrderInRows bool,
+) *structs.ReplyKeyboardMarkup {
+
 	var rows [][]string
 	var row []string
 
@@ -49,12 +69,20 @@ func (k Keyboards) NewReplyKeyboardFromSliceOfStrings(sliceOfStrings []string, b
 		row = append(row, s)
 
 		if len(row) >= bpr {
+			if reverseButtonOrderInRows {
+				slices.Reverse(row)
+			}
+
 			rows = append(rows, row)
 			row = []string{}
 		}
 	}
 
 	if len(row) > 0 {
+		if reverseButtonOrderInRows {
+			slices.Reverse(row)
+		}
+
 		rows = append(rows, row)
 	}
 
@@ -65,7 +93,11 @@ func (k Keyboards) NewReplyKeyboardFromSliceOfStrings(sliceOfStrings []string, b
 // The slice of strings will be divided into slices of strings with the length of bpr (buttons per row).
 // The formation of the keyboard is defined by the slice of integers.
 func (k Keyboards) NewReplyKeyboardFromSliceOfStringsWithFormation(
-	sliceOfStrings []string, maxBtnPerRow int, buttonFormation []int) *structs.ReplyKeyboardMarkup {
+	sliceOfStrings []string,
+	maxBtnPerRow int,
+	buttonFormation []int,
+	reverseButtonOrderInRows bool,
+) *structs.ReplyKeyboardMarkup {
 
 	var rows [][]string
 	var row []string
@@ -74,12 +106,20 @@ func (k Keyboards) NewReplyKeyboardFromSliceOfStringsWithFormation(
 		row = append(row, s)
 
 		if k.shouldBreakRow(len(row), len(rows), maxBtnPerRow, buttonFormation) || s == "" {
+			if reverseButtonOrderInRows {
+				slices.Reverse(row)
+			}
+
 			rows = append(rows, row)
 			row = []string{}
 		}
 	}
 
 	if len(row) > 0 {
+		if reverseButtonOrderInRows {
+			slices.Reverse(row)
+		}
+
 		rows = append(rows, row)
 	}
 
