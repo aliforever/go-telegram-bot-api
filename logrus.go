@@ -5,17 +5,17 @@ import (
 	"log"
 )
 
-type LogrusHook struct {
+type Logrus struct {
 	bot    *TelegramBot
 	chatID int64
 	levels []logrus.Level
 }
 
-func NewLogrusHook(bot *TelegramBot, chatID int64, levels ...logrus.Level) logrus.Hook {
-	return LogrusHook{bot: bot, chatID: chatID, levels: levels}
+func NewLogrus(bot *TelegramBot, chatID int64, levels ...logrus.Level) logrus.Hook {
+	return Logrus{bot: bot, chatID: chatID, levels: levels}
 }
 
-func (t LogrusHook) Levels() []logrus.Level {
+func (t Logrus) Levels() []logrus.Level {
 	if len(t.levels) > 0 {
 		return t.levels
 	}
@@ -31,7 +31,7 @@ func (t LogrusHook) Levels() []logrus.Level {
 	}
 }
 
-func (t LogrusHook) Fire(entry *logrus.Entry) error {
+func (t Logrus) Fire(entry *logrus.Entry) error {
 	go func() {
 		_, err := t.bot.Send(t.bot.Message().SetText(entry.Message).SetChatId(t.chatID))
 		if err != nil {

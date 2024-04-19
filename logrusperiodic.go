@@ -8,7 +8,7 @@ import (
 	"time"
 )
 
-type LogrusPeriodicHook struct {
+type LogrusPeriodic struct {
 	bot      *TelegramBot
 	chatID   int64
 	interval time.Duration
@@ -17,7 +17,7 @@ type LogrusPeriodicHook struct {
 	levels   []logrus.Level
 }
 
-func NewLogrusPeriodicHook(
+func NewLogrusPeriodic(
 	bot *TelegramBot,
 	chatID int64,
 	interval time.Duration,
@@ -25,7 +25,7 @@ func NewLogrusPeriodicHook(
 	levels ...logrus.Level,
 ) logrus.Hook {
 
-	tp := LogrusPeriodicHook{
+	tp := LogrusPeriodic{
 		bot:      bot,
 		chatID:   chatID,
 		interval: interval,
@@ -39,7 +39,7 @@ func NewLogrusPeriodicHook(
 	return tp
 }
 
-func (t LogrusPeriodicHook) Levels() []logrus.Level {
+func (t LogrusPeriodic) Levels() []logrus.Level {
 	if len(t.levels) > 0 {
 		return t.levels
 	}
@@ -55,7 +55,7 @@ func (t LogrusPeriodicHook) Levels() []logrus.Level {
 	}
 }
 
-func (t LogrusPeriodicHook) Fire(entry *logrus.Entry) error {
+func (t LogrusPeriodic) Fire(entry *logrus.Entry) error {
 	go func() {
 		t.logs <- fmt.Sprintf("%s - %s", time.Now().Format("2006-01-02 15:04:05"), entry.Message)
 	}()
@@ -63,7 +63,7 @@ func (t LogrusPeriodicHook) Fire(entry *logrus.Entry) error {
 	return nil
 }
 
-func (t LogrusPeriodicHook) periodicSender() {
+func (t LogrusPeriodic) periodicSender() {
 	ticker := time.NewTicker(t.interval)
 
 	data := []string{}

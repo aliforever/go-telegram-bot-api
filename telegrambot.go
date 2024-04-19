@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"github.com/go-resty/resty/v2"
 	"github.com/sirupsen/logrus"
+	"log/slog"
 	"math/rand"
 	"net/http"
 	"time"
@@ -502,20 +503,25 @@ func (tb *TelegramBot) SendWithOptions(config Config, options *SendOptions) (res
 	return
 }
 
-// LogrusPeriodicLogger is a logger implementing logrus.Hook that logs periodically
-func (tb *TelegramBot) LogrusPeriodicLogger(
+// LogrusPeriodicHook is a logger implementing logrus.Hook that logs periodically
+func (tb *TelegramBot) LogrusPeriodicHook(
 	chatID int64,
 	interval time.Duration,
 	title string,
 	levels ...logrus.Level,
 ) logrus.Hook {
 
-	return NewLogrusPeriodicHook(tb, chatID, interval, title, levels...)
+	return NewLogrusPeriodic(tb, chatID, interval, title, levels...)
 }
 
-// LogrusLogger is a logger implementing logrus.Hook that logs immediately
-func (tb *TelegramBot) LogrusLogger(chatID int64, levels ...logrus.Level) logrus.Hook {
-	return NewLogrusHook(tb, chatID, levels...)
+// LogrusHook is a logger implementing logrus.Hook that logs immediately
+func (tb *TelegramBot) LogrusHook(chatID int64, levels ...logrus.Level) logrus.Hook {
+	return NewLogrus(tb, chatID, levels...)
+}
+
+// SlogHandler is a logger implementing logrus.Hook that logs immediately
+func (tb *TelegramBot) SlogHandler(handler slog.Handler, chatID int64, levels ...slog.Level) slog.Handler {
+	return NewSlog(handler, tb, chatID, levels...)
 }
 
 func (tb *TelegramBot) logErrBytes(rawBytes []byte, err error) {
