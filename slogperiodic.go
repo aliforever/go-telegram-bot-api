@@ -61,7 +61,21 @@ func (l *SlogPeriodic) Enabled(ctx context.Context, level slog.Level) bool {
 func (l *SlogPeriodic) Handle(ctx context.Context, r slog.Record) error {
 	if slices.Contains(l.levels, r.Level) {
 		go func() {
-			l.logs <- fmt.Sprintf("%s - %s", r.Time.In(l.l).Format("2006-01-02 15:04:05MST"), r.Message)
+			msg := r.Message
+
+			var attrs []string
+
+			r.Attrs(func(attr slog.Attr) bool {
+				attrs = append(attrs, fmt.Sprintf("%s: %s", attr.Key, attr.Value.String()))
+
+				return true
+			})
+
+			if len(attrs) > 0 {
+				msg = fmt.Sprintf("%s - %s", msg, strings.Join(attrs, " | "))
+			}
+
+			l.logs <- fmt.Sprintf("%s - %s", r.Time.In(l.l).Format("2006-01-02 15:04:05MST"), msg)
 		}()
 	}
 

@@ -6,6 +6,7 @@ import (
 	"log"
 	"log/slog"
 	"slices"
+	"strings"
 	"time"
 )
 
@@ -61,7 +62,22 @@ func (l *Slog) Enabled(ctx context.Context, level slog.Level) bool {
 func (l *Slog) Handle(ctx context.Context, r slog.Record) error {
 	if slices.Contains(l.levels, r.Level) {
 		go func() {
-			message := fmt.Sprintf("%s - %s", r.Time.In(l.l).Format("2006-01-02 15:04:05MST"), r.Message)
+			msg := r.Message
+
+			var attrs []string
+
+			r.Attrs(func(attr slog.Attr) bool {
+				attrs = append(attrs, fmt.Sprintf("%s: %s", attr.Key, attr.Value.String()))
+
+				return true
+			})
+
+			if len(attrs) > 0 {
+				msg = fmt.Sprintf("%s - %s", msg, strings.Join(attrs, " | "))
+			}
+
+			message := fmt.Sprintf("%s - %s", r.Time.In(l.l).Format("2006-01-02 15:04:05MST"), msg)
+
 			_, err := l.bot.Send(l.bot.Message().SetText(message).SetChatId(l.chatID))
 			if err != nil {
 				r.Message = err.Error()
