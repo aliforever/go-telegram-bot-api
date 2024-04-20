@@ -524,6 +524,17 @@ func (tb *TelegramBot) SlogHandler(handler slog.Handler, chatID int64, levels ..
 	return NewSlog(handler, tb, chatID, levels...)
 }
 
+// SlogPeriodicHandler is a logger implementing logrus.Hook that logs periodically
+func (tb *TelegramBot) SlogPeriodicHandler(
+	handler slog.Handler,
+	chatID int64,
+	interval time.Duration,
+	title string,
+	levels ...slog.Level,
+) slog.Handler {
+	return NewSlogPeriodic(handler, tb, chatID, interval, title, levels...)
+}
+
 func (tb *TelegramBot) logErrBytes(rawBytes []byte, err error) {
 	if tb.logger != nil {
 		tb.logger.Errorf("%s : %s", err, string(rawBytes))
