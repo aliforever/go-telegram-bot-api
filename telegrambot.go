@@ -5,12 +5,13 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"github.com/go-resty/resty/v2"
-	"github.com/sirupsen/logrus"
 	"log/slog"
 	"math/rand"
 	"net/http"
 	"time"
+
+	"github.com/go-resty/resty/v2"
+	"github.com/sirupsen/logrus"
 
 	"github.com/aliforever/go-telegram-bot-api/tools"
 )
@@ -250,6 +251,16 @@ func (tb *TelegramBot) Document() (m *sendDocument) {
 	if tb.recipientChatId != 0 {
 		m.SetChatId(tb.recipientChatId)
 	}
+	return
+}
+
+func (tb *TelegramBot) Dice() (m *sendDice) {
+	m = &sendDice{parent: tb}
+
+	if tb.recipientChatId != 0 {
+		m.SetChatId(tb.recipientChatId)
+	}
+
 	return
 }
 

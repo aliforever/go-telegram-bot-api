@@ -37,6 +37,7 @@ type Message struct {
 	VideoNote                    *VideoNote                    `json:"video_note,omitempty"`
 	Caption                      string                        `json:"caption,omitempty"`
 	Contact                      *Contact                      `json:"contact,omitempty"`
+	Dice                         *Dice                         `json:"dice,omitempty"`
 	Location                     *Location                     `json:"location,omitempty"`
 	Venue                        *Venue                        `json:"venue,omitempty"`
 	Poll                         *Poll                         `json:"poll,omitempty"`
