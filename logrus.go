@@ -1,8 +1,11 @@
 package tgbotapi
 
 import (
-	"github.com/sirupsen/logrus"
+	"fmt"
 	"log"
+	"strings"
+
+	"github.com/sirupsen/logrus"
 )
 
 type Logrus struct {
@@ -33,7 +36,19 @@ func (t Logrus) Levels() []logrus.Level {
 
 func (t Logrus) Fire(entry *logrus.Entry) error {
 	go func() {
-		_, err := t.bot.Send(t.bot.Message().SetText(entry.Message).SetChatId(t.chatID))
+		var data []string
+
+		for key, val := range entry.Data {
+			data = append(data, fmt.Sprintf("%s: %v", key, val))
+		}
+
+		text := entry.Message
+
+		if len(data) > 0 {
+			text += "\n" + strings.Join(data, "\n")
+		}
+
+		_, err := t.bot.Send(t.bot.Message().SetText(text).SetChatId(t.chatID))
 		if err != nil {
 			log.Println(err)
 		}
