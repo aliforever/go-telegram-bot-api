@@ -164,17 +164,17 @@ func (m *sendInvoice) SetDescription(description string) *sendInvoice {
 }
 
 func (m *sendInvoice) SetPayload(payload string) *sendInvoice {
-	m.description = payload
+	m.payload = payload
 	return m
 }
 
 func (m *sendInvoice) SetProviderToken(providerToken string) *sendInvoice {
-	m.description = providerToken
+	m.providerToken = providerToken
 	return m
 }
 
 func (m *sendInvoice) SetCurrency(currency string) *sendInvoice {
-	m.description = currency
+	m.currency = currency
 	return m
 }
 
