@@ -82,6 +82,10 @@ func (u *Update) From() (user *structs.User) {
 		return u.MyChatMember.From
 	}
 
+	if u.PreCheckoutQuery != nil {
+		return &u.PreCheckoutQuery.From
+	}
+
 	// TODO: Add More Cases
 	return
 }
