@@ -16,11 +16,12 @@ type Update struct {
 	MyChatMember  *structs.ChatMemberUpdated `json:"my_chat_member,omitempty"`
 	ChatMember    *structs.ChatMemberUpdated `json:"chat_member,omitempty"`
 	// ShippingQuery      ShippingQuery      `json:"shipping_query"`
-	// PreCheckoutQuery   PreCheckoutQuery   `json:"pre_checkout_query"`
-	Poll       *structs.Poll       `json:"poll,omitempty"`
-	PollAnswer *structs.PollAnswer `json:"poll_answer,omitempty"`
-	err        error
-	raw        []byte
+	PreCheckoutQuery *structs.PreCheckoutQuery `json:"pre_checkout_query"`
+	Poll             *structs.Poll             `json:"poll,omitempty"`
+	PollAnswer       *structs.PollAnswer       `json:"poll_answer,omitempty"`
+
+	err error
+	raw []byte
 }
 
 func newUpdateError(err error) Update {

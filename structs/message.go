@@ -54,6 +54,7 @@ type Message struct {
 	PinnedMessage                *Message                      `json:"pinned_message,omitempty"`
 	Invoice                      *Invoice                      `json:"invoice,omitempty"`
 	SuccessfulPayment            *SuccessfulPayment            `json:"successful_payment,omitempty"`
+	RefundedPayment              *RefundedPayment              `json:"refunded_payment,omitempty"`
 	ConnectedWebsite             string                        `json:"connected_website,omitempty"`
 	PassportData                 *PassportData                 `json:"passport_data,omitempty"`
 	ReplyMarkup                  *InlineKeyboardMarkup         `json:"reply_markup,omitempty"`

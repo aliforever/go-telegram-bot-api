@@ -335,6 +335,11 @@ func (tb *TelegramBot) AnswerCallbackQuery() (m *answerCallbackQuery) {
 	return
 }
 
+func (tb *TelegramBot) AnswerPreCheckoutQuery() (m *answerPreCheckoutQuery) {
+	m = &answerPreCheckoutQuery{parent: tb}
+	return
+}
+
 func (tb *TelegramBot) PromoteChatMember() (m *promoteChatMember) {
 	m = &promoteChatMember{parent: tb}
 	return
@@ -424,6 +429,14 @@ func (tb *TelegramBot) SetWebhook() (m *setWebhook) {
 
 func (tb *TelegramBot) DeleteWebhook() (m *deleteWebhook) {
 	m = &deleteWebhook{parent: tb}
+	return
+}
+
+func (tb *TelegramBot) Invoice() (m *sendInvoice) {
+	m = &sendInvoice{parent: tb}
+	if tb.recipientChatId != 0 {
+		m.SetChatId(tb.recipientChatId)
+	}
 	return
 }
 
