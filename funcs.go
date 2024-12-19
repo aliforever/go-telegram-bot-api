@@ -32,8 +32,6 @@ func (tb *TelegramBot) prepareRequest(config Config, request *resty.Request) err
 			return err
 		}
 
-		fmt.Println(string(body))
-
 		request = request.SetBody(string(body))
 	}
 
