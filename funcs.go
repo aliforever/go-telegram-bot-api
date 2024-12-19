@@ -9,9 +9,10 @@ import (
 	"math/rand"
 	"strconv"
 
+	"github.com/go-resty/resty/v2"
+
 	"github.com/aliforever/go-telegram-bot-api/responses"
 	"github.com/aliforever/go-telegram-bot-api/structs"
-	"github.com/go-resty/resty/v2"
 )
 
 func (tb *TelegramBot) prepareRequest(config Config, request *resty.Request) error {
@@ -30,6 +31,8 @@ func (tb *TelegramBot) prepareRequest(config Config, request *resty.Request) err
 		if err != nil {
 			return err
 		}
+
+		fmt.Println(string(body))
 
 		request = request.SetBody(string(body))
 	}

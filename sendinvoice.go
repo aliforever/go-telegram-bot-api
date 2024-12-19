@@ -26,16 +26,16 @@ type sendInvoice struct {
 	photoSize                 int64
 	photoWidth                int
 	photoHeight               int
-	needName                  bool
-	needPhoneNumber           bool
-	needEmail                 bool
-	needShippingAddress       bool
-	sendPhoneNumberToProvider bool
-	sendEmailToProvider       bool
-	isFlexible                bool
-	disableNotification       bool
-	protectContent            bool
-	allowPaidBroadcast        bool
+	needName                  *bool
+	needPhoneNumber           *bool
+	needEmail                 *bool
+	needShippingAddress       *bool
+	sendPhoneNumberToProvider *bool
+	sendEmailToProvider       *bool
+	isFlexible                *bool
+	disableNotification       *bool
+	protectContent            *bool
+	allowPaidBroadcast        *bool
 	messageEffectId           string
 	replyParameters           *struct {
 		messageID                int64
@@ -68,34 +68,36 @@ type sendInvoice struct {
 
 func (m *sendInvoice) marshalJSON() ([]byte, error) {
 	return json.Marshal(struct {
-		MessageThreadId           int64                  `json:"message_thread_id"`
+		ChatId                    interface{}            `json:"chat_id"`
+		MessageThreadId           int64                  `json:"message_thread_id,omitempty"`
 		Title                     string                 `json:"title"`
 		Description               string                 `json:"description"`
 		Payload                   string                 `json:"payload"`
 		ProviderToken             string                 `json:"provider_token"`
 		Currency                  string                 `json:"currency"`
 		Prices                    []structs.LabeledPrice `json:"prices"`
-		MaxTipAmount              int                    `json:"max_tip_amount"`
-		SuggestedTipAmounts       []int                  `json:"suggested_tip_amounts"`
-		StartParameter            string                 `json:"start_parameter"`
-		ProviderData              string                 `json:"provider_data"`
-		PhotoURL                  string                 `json:"photo_url"`
-		PhotoSize                 int64                  `json:"photo_size"`
-		PhotoWidth                int                    `json:"photo_width"`
-		PhotoHeight               int                    `json:"photo_height"`
-		NeedName                  bool                   `json:"need_name"`
-		NeedPhoneNumber           bool                   `json:"need_phone_number"`
-		NeedEmail                 bool                   `json:"need_email"`
-		NeedShippingAddress       bool                   `json:"need_shipping_address"`
-		SendPhoneNumberToProvider bool                   `json:"send_phone_number_to_provider"`
-		SendEmailToProvider       bool                   `json:"send_email_to_provider"`
-		IsFlexible                bool                   `json:"is_flexible"`
-		DisableNotification       bool                   `json:"disable_notification"`
-		ProtectContent            bool                   `json:"protect_content"`
-		AllowPaidBroadcast        bool                   `json:"allow_paid_broadcast"`
-		MessageEffectId           string                 `json:"message_effect_id"`
+		MaxTipAmount              int                    `json:"max_tip_amount,omitempty"`
+		SuggestedTipAmounts       []int                  `json:"suggested_tip_amounts,omitempty"`
+		StartParameter            string                 `json:"start_parameter,omitempty"`
+		ProviderData              string                 `json:"provider_data,omitempty"`
+		PhotoURL                  string                 `json:"photo_url,omitempty"`
+		PhotoSize                 int64                  `json:"photo_size,omitempty"`
+		PhotoWidth                int                    `json:"photo_width,omitempty"`
+		PhotoHeight               int                    `json:"photo_height,omitempty"`
+		NeedName                  *bool                  `json:"need_name,omitempty"`
+		NeedPhoneNumber           *bool                  `json:"need_phone_number,omitempty"`
+		NeedEmail                 *bool                  `json:"need_email,omitempty"`
+		NeedShippingAddress       *bool                  `json:"need_shipping_address,omitempty"`
+		SendPhoneNumberToProvider *bool                  `json:"send_phone_number_to_provider,omitempty"`
+		SendEmailToProvider       *bool                  `json:"send_email_to_provider,omitempty"`
+		IsFlexible                *bool                  `json:"is_flexible,omitempty"`
+		DisableNotification       *bool                  `json:"disable_notification,omitempty"`
+		ProtectContent            *bool                  `json:"protect_content,omitempty"`
+		AllowPaidBroadcast        *bool                  `json:"allow_paid_broadcast,omitempty"`
+		MessageEffectId           string                 `json:"message_effect_id,omitempty"`
 		ReplyMarkup               interface{}            `json:"reply_markup,omitempty"`
 	}{
+		ChatId:                    m.chatId,
 		MessageThreadId:           m.messageThreadId,
 		Title:                     m.title,
 		Description:               m.description,
@@ -227,52 +229,52 @@ func (m *sendInvoice) SetPhotoHeight(photoHeight int) *sendInvoice {
 }
 
 func (m *sendInvoice) SetNeedName(needName bool) *sendInvoice {
-	m.needName = needName
+	m.needName = &needName
 	return m
 }
 
 func (m *sendInvoice) SetNeedPhoneNumber(needPhoneNumber bool) *sendInvoice {
-	m.needPhoneNumber = needPhoneNumber
+	m.needPhoneNumber = &needPhoneNumber
 	return m
 }
 
 func (m *sendInvoice) SetNeedEmail(needEmail bool) *sendInvoice {
-	m.needEmail = needEmail
+	m.needEmail = &needEmail
 	return m
 }
 
 func (m *sendInvoice) SetNeedShippingAddress(needShippingAddress bool) *sendInvoice {
-	m.needShippingAddress = needShippingAddress
+	m.needShippingAddress = &needShippingAddress
 	return m
 }
 
 func (m *sendInvoice) SetSendPhoneNumberToProvider(sendPhoneNumberToProvider bool) *sendInvoice {
-	m.sendPhoneNumberToProvider = sendPhoneNumberToProvider
+	m.sendPhoneNumberToProvider = &sendPhoneNumberToProvider
 	return m
 }
 
 func (m *sendInvoice) SetSendEmailToProvider(sendEmailToProvider bool) *sendInvoice {
-	m.sendEmailToProvider = sendEmailToProvider
+	m.sendEmailToProvider = &sendEmailToProvider
 	return m
 }
 
 func (m *sendInvoice) SetIsFlexible(isFlexible bool) *sendInvoice {
-	m.isFlexible = isFlexible
+	m.isFlexible = &isFlexible
 	return m
 }
 
 func (m *sendInvoice) SetDisableNotification(disableNotification bool) *sendInvoice {
-	m.disableNotification = disableNotification
+	m.disableNotification = &disableNotification
 	return m
 }
 
 func (m *sendInvoice) SetProtectContent(protectContent bool) *sendInvoice {
-	m.protectContent = protectContent
+	m.protectContent = &protectContent
 	return m
 }
 
 func (m *sendInvoice) SetAllowPaidBroadcast(allowPaidBroadcast bool) *sendInvoice {
-	m.allowPaidBroadcast = allowPaidBroadcast
+	m.allowPaidBroadcast = &allowPaidBroadcast
 	return m
 }
 
