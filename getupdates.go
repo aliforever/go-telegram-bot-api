@@ -2,6 +2,7 @@ package tgbotapi
 
 import (
 	"encoding/json"
+	"log/slog"
 )
 
 type getUpdates struct {
@@ -11,6 +12,8 @@ type getUpdates struct {
 	timeout        int64
 	allowedUpdates []string
 	onError        func(error) bool
+	logger         *slog.Logger
+	logUpdates     bool
 }
 
 func (gu *getUpdates) Offset() int64 {
@@ -32,6 +35,16 @@ func (gu *getUpdates) AllowedUpdates() []string {
 func (gu *getUpdates) SetOnError(onError func(error) bool) *getUpdates {
 	gu.onError = onError
 
+	return gu
+}
+
+func (gu *getUpdates) SetLogger(logger *slog.Logger) *getUpdates {
+	gu.logger = logger
+	return gu
+}
+
+func (gu *getUpdates) LogUpdates() *getUpdates {
+	gu.logUpdates = true
 	return gu
 }
 
@@ -108,7 +121,7 @@ func (gu *getUpdates) handleErrorAndReturn(err error) *bool {
 func (gu *getUpdates) pollUpdates() error {
 	var update Update
 
-	for true {
+	for {
 		resp, err := gu.parent.Send(gu)
 		if shouldReturn := gu.handleErrorAndReturn(err); shouldReturn != nil {
 			if *shouldReturn {
@@ -124,6 +137,4 @@ func (gu *getUpdates) pollUpdates() error {
 
 		gu.SetOffset(update.UpdateId + 1)
 	}
-
-	return nil
 }

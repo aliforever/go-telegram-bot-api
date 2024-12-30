@@ -1,11 +1,11 @@
 package tgbotapi
 
 import (
-	"bytes"
 	"encoding/json"
 	"errors"
 	"fmt"
 	"io"
+	"log/slog"
 	"math/rand"
 	"strconv"
 
@@ -79,9 +79,16 @@ func (tb *TelegramBot) getMessageResponse(resp *resty.Response, config Config) (
 		return
 	}
 
+	if tb.logger != nil && tb.logEvents {
+		tb.logger.Info(
+			"received response",
+			slog.String("response", string(raw)),
+		)
+	}
+
 	var genericResp *genericResponse
 
-	err = json.NewDecoder(bytes.NewReader(raw)).Decode(&genericResp)
+	err = json.Unmarshal(raw, &genericResp)
 	if err != nil {
 		return
 	}

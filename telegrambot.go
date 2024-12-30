@@ -25,7 +25,8 @@ type TelegramBot struct {
 	randSource      rand.Source
 	client          *resty.Client
 	Tools           tools.Tools
-	logger          resty.Logger
+	logger          *slog.Logger
+	logEvents       bool
 }
 
 func NewSelfHosted(apiToken string, address string) (tb *TelegramBot, err error) {
@@ -91,7 +92,7 @@ func New(apiToken string) (tb *TelegramBot, err error) {
 	return
 }
 
-func NewTelegramBotWithLogger(apiToken string, logger resty.Logger) (tb *TelegramBot, err error) {
+func NewTelegramBotWithLogger(apiToken string, logger *slog.Logger) (tb *TelegramBot, err error) {
 	address := fmt.Sprintf(`https://api.telegram.org/bot%s/`, apiToken)
 	client := resty.New()
 	client.SetHostURL(address)
@@ -104,6 +105,33 @@ func NewTelegramBotWithLogger(apiToken string, logger resty.Logger) (tb *Telegra
 		Tools:      tools.Tools{},
 		randSource: rand.NewSource(time.Now().UnixNano()),
 		logger:     logger,
+	}
+	var resp *Response
+	resp, err = bot.Send(bot.GetMe())
+	if err != nil {
+		return
+	}
+	if resp.User == nil {
+		err = errors.New("empty_user_response")
+	}
+	tb = bot
+	return
+}
+
+func NewTelegramBotWithLoggerEvents(apiToken string, logger *slog.Logger) (tb *TelegramBot, err error) {
+	address := fmt.Sprintf(`https://api.telegram.org/bot%s/`, apiToken)
+	client := resty.New()
+	client.SetHostURL(address)
+	client.SetDoNotParseResponse(true)
+	bot := &TelegramBot{
+		apiToken:   apiToken,
+		apiUrl:     address,
+		client:     client,
+		updates:    make(chan Update),
+		Tools:      tools.Tools{},
+		randSource: rand.NewSource(time.Now().UnixNano()),
+		logger:     logger,
+		logEvents:  true,
 	}
 	var resp *Response
 	resp, err = bot.Send(bot.GetMe())
@@ -561,6 +589,10 @@ func (tb *TelegramBot) SlogPeriodicHandler(
 
 func (tb *TelegramBot) logErrBytes(rawBytes []byte, err error) {
 	if tb.logger != nil {
-		tb.logger.Errorf("%s : %s", err, string(rawBytes))
+		tb.logger.Error(
+			"%s : %s",
+			slog.Any("error", err),
+			slog.String("response", string(rawBytes)),
+		)
 	}
 }

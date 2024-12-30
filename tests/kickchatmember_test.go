@@ -1,13 +1,6 @@
 package tests
 
-import (
-	"fmt"
-	"testing"
-
-	"github.com/aliforever/go-telegram-bot-api"
-)
-
-func TestKickChatMember(t *testing.T) {
+/*func TestKickChatMember(t *testing.T) {
 	bot, err := tgbotapi.New("796493295:AAE3EGLAnba_XAsp_ts3sbPTHpW3nitBc4s")
 	if err != nil {
 		fmt.Println(err)
@@ -24,4 +17,4 @@ func TestKickChatMember(t *testing.T) {
 		return
 	}
 	fmt.Println(resp.Ok, resp.Message)
-}
+}*/

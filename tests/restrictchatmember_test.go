@@ -23,5 +23,5 @@ func TestRestrictChatMember(t *testing.T) {
 		fmt.Println("disallowed")
 		return
 	}
-	fmt.Println(resp.Ok, resp.Message)
+	// fmt.Println(resp.Ok, resp.Message)
 }

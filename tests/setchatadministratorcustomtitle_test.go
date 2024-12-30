@@ -19,7 +19,8 @@ func TestSetChatAdministratorCustomTitle(t *testing.T) {
 		fmt.Println(err)
 		return
 	}
-	fmt.Println(messages, string(messages.Result))
+	_ = messages
+	// fmt.Println(messages, string(messages.Result))
 	/*m, err := bot.Send(message)
 	if err != nil {
 		fmt.Println(err)

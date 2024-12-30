@@ -23,5 +23,5 @@ func TestUnbanChatMember(t *testing.T) {
 		fmt.Println("unbanned")
 		return
 	}
-	fmt.Println(resp.Ok, resp.Message)
+	// fmt.Println(resp.Ok, resp.Message)
 }

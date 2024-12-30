@@ -23,5 +23,5 @@ func TestPromoteChatMember(t *testing.T) {
 		fmt.Println("user can now pin messages")
 		return
 	}
-	fmt.Println(resp.Ok, resp.Message)
+	// fmt.Println(resp.Ok, resp.Message)
 }
