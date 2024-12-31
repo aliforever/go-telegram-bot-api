@@ -161,6 +161,24 @@ func (tb *TelegramBot) GetMe() (m *getMe) {
 	return
 }
 
+func (tb *TelegramBot) GetChat() (m *getChat) {
+	m = &getChat{parent: tb}
+	if tb.recipientChatId != 0 {
+		m.SetChatId(tb.recipientChatId)
+	}
+
+	return
+}
+
+func (tb *TelegramBot) LeaveChat() (m *leaveChat) {
+	m = &leaveChat{parent: tb}
+	if tb.recipientChatId != 0 {
+		m.SetChatId(tb.recipientChatId)
+	}
+
+	return
+}
+
 func (tb *TelegramBot) GetChatMember() (m *getChatMember) {
 	m = &getChatMember{parent: tb}
 	if tb.recipientChatId != 0 {

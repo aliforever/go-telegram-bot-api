@@ -59,7 +59,7 @@ func TestNewSlog(t *testing.T) {
 }
 
 func newTelegramBot() *TelegramBot {
-	token := "6670021288:AAG7GhTG3EciSTo4FnoswpIXrrR8J1oLi50"
+	token := ""
 
 	bot, err := New(token)
 	if err != nil {
