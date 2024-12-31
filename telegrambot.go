@@ -69,16 +69,21 @@ func New(apiToken string, options ...*Options) (tb *TelegramBot, err error) {
 		option = options[0]
 	}
 
+	var (
+		logger       *slog.Logger
+		logResponses bool
+	)
+
 	if option != nil {
 		if option.apiURL != nil {
 			address = fmt.Sprintf("%s/bot%s/", *option.apiURL, apiToken)
 		}
 
 		if option.logger != nil {
-			tb.logger = option.logger
+			logger = option.logger
 		}
 
-		tb.logEvents = option.logResponses
+		logResponses = option.logResponses
 	}
 
 	client := resty.New()
@@ -92,6 +97,8 @@ func New(apiToken string, options ...*Options) (tb *TelegramBot, err error) {
 		updates:    make(chan Update),
 		randSource: rand.NewSource(time.Now().UnixNano()),
 		Tools:      tools.Tools{},
+		logger:     logger,
+		logEvents:  logResponses,
 	}
 
 	var resp *Response
