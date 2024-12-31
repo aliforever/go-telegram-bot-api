@@ -60,11 +60,29 @@ func NewSelfHosted(apiToken string, address string) (tb *TelegramBot, err error)
 	return
 }
 
-func New(apiToken string) (tb *TelegramBot, err error) {
+func New(apiToken string, options ...*Options) (tb *TelegramBot, err error) {
 	address := fmt.Sprintf(`https://api.telegram.org/bot%s/`, apiToken)
 
+	var option *Options
+
+	if len(options) > 0 {
+		option = options[0]
+	}
+
+	if option != nil {
+		if option.apiURL != nil {
+			address = fmt.Sprintf("%s/bot%s/", *option.apiURL, apiToken)
+		}
+
+		if option.logger != nil {
+			tb.logger = option.logger
+		}
+
+		tb.logEvents = option.logResponses
+	}
+
 	client := resty.New()
-	client.SetHostURL(address)
+	client.SetBaseURL(address)
 	client.SetDoNotParseResponse(true)
 
 	bot := &TelegramBot{
@@ -149,7 +167,7 @@ func (tb *TelegramBot) SetAPIServerUrl(address string) {
 	if address[len(address)-1] == '/' {
 		address = address[:len(address)-1]
 	}
-	tb.client.SetHostURL(fmt.Sprintf("%s/bot%s/", address, tb.apiToken))
+	tb.client.SetBaseURL(fmt.Sprintf("%s/bot%s/", address, tb.apiToken))
 }
 
 func (tb *TelegramBot) SetRecipientChatId(chatId int64) {
