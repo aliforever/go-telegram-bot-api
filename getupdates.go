@@ -125,6 +125,7 @@ func (gu *getUpdates) pollUpdates() error {
 		resp, err := gu.parent.Send(gu)
 		if shouldReturn := gu.handleErrorAndReturn(err); shouldReturn != nil {
 			if *shouldReturn {
+				gu.parent.updates <- newUpdateError(err)
 				return err
 			}
 
