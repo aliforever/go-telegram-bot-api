@@ -27,5 +27,7 @@ type Response struct {
 	File              *structs.File
 	StickerSet        *structs.StickerSet
 	MessageId         *structs.MessageId
+	WebAppData        *structs.WebAppData
+	SentWebAppMessage *structs.SentWebAppMessage
 	Raw               []byte
 }

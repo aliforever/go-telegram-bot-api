@@ -1,6 +1,8 @@
 package structs
 
-import "encoding/json"
+import (
+	"encoding/json"
+)
 
 type InlineKeyboardMarkup struct {
 	inlineKeyboard []*InlineKeyboardButtons
@@ -50,6 +52,11 @@ func (ikm InlineKeyboardMarkup) FromSlicesOfMaps(slicesOfMap [][]map[string]stri
 			}
 			if callbackData, exists := row["callback_data"]; exists {
 				keyboardRow.AddCallbackButton(text, callbackData)
+				continue
+			}
+			if webappUrl, exists := row["web_app"]; exists {
+				keyboardRow.AddWebAppUrlButton(text, webappUrl)
+				continue
 			}
 		}
 	}

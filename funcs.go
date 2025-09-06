@@ -132,6 +132,10 @@ func (tb *TelegramBot) getMessageResponse(resp *resty.Response, config Config) (
 		response.StickerSet = v
 	case *structs.MessageId:
 		response.MessageId = v
+	case *structs.WebAppData:
+		response.WebAppData = v
+	case *structs.SentWebAppMessage:
+		response.SentWebAppMessage = v
 	case *bool:
 		response.Bool = v
 	case *int64:

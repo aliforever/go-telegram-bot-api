@@ -6,6 +6,7 @@ type InlineKeyboardButton struct {
 	text                         string
 	url                          string
 	loginUrl                     LoginUrl
+	webApp                       *WebApp
 	callbackData                 string
 	switchInlineQuery            string
 	switchInlineQueryCurrentChat string
@@ -23,6 +24,7 @@ func (i InlineKeyboardButton) MarshalJSON() ([]byte, error) {
 		SwitchInlineQueryCurrentChat string      `json:"switch_inline_query_current_chat,omitempty"`
 		CallbackGame                 interface{} `json:"callback_game,omitempty"`
 		Pay                          bool        `json:"pay,omitempty"`
+		WebApp                       *WebApp     `json:"web_app,omitempty"`
 	}{
 		Text:                         i.text,
 		Url:                          i.url,
@@ -32,6 +34,7 @@ func (i InlineKeyboardButton) MarshalJSON() ([]byte, error) {
 		SwitchInlineQueryCurrentChat: i.switchInlineQueryCurrentChat,
 		CallbackGame:                 i.callbackGame,
 		Pay:                          i.pay,
+		WebApp:                       i.webApp,
 	})
 }
 
@@ -40,6 +43,7 @@ func (i *InlineKeyboardButton) UnmarshalJSON(data []byte) (err error) {
 		Text                         string      `json:"text"`
 		Url                          string      `json:"url"`
 		LoginUrl                     LoginUrl    `json:"login_url"`
+		WebApp                       *WebApp     `json:"web_app"`
 		CallbackData                 string      `json:"callback_data"`
 		SwitchInlineQuery            string      `json:"switch_inline_query"`
 		SwitchInlineQueryCurrentChat string      `json:"switch_inline_query_current_chat"`
@@ -52,6 +56,7 @@ func (i *InlineKeyboardButton) UnmarshalJSON(data []byte) (err error) {
 			text:                         object.Text,
 			url:                          object.Url,
 			loginUrl:                     object.LoginUrl,
+			webApp:                       object.WebApp,
 			callbackData:                 object.CallbackData,
 			switchInlineQuery:            object.SwitchInlineQuery,
 			switchInlineQueryCurrentChat: object.SwitchInlineQueryCurrentChat,
@@ -65,6 +70,14 @@ func (i *InlineKeyboardButton) UnmarshalJSON(data []byte) (err error) {
 
 func (i *InlineKeyboardButton) SetText(text string) {
 	(*i).text = text
+}
+
+func (i *InlineKeyboardButton) SetWebApp(webApp *WebApp) {
+	(*i).webApp = webApp
+}
+
+func (i *InlineKeyboardButton) SetWebAppURL(url string) {
+	(*i).webApp = &WebApp{URL: url}
 }
 
 //

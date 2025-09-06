@@ -61,6 +61,7 @@ type Message struct {
 	VoiceChatScheduled           *VoiceChatScheduled           `json:"voice_chat_scheduled,omitempty"`
 	VoiceChatStarted             *VoiceChatStarted             `json:"voice_chat_started,omitempty"`
 	VoiceChatParticipantsInvited *VoiceChatParticipantsInvited `json:"voice_chat_participants_invited,omitempty"`
+	WebAppData                   *WebAppData                   `json:"web_app_data,omitempty"`
 }
 
 func (m *Message) IsPrivate() bool {

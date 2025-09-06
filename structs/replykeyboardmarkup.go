@@ -23,6 +23,19 @@ func (rkm ReplyKeyboardMarkup) MarshalJSON() ([]byte, error) {
 	})
 }
 
+func (rkm ReplyKeyboardMarkup) WebAppButton(url string) *ReplyKeyboardMarkup {
+	return &ReplyKeyboardMarkup{
+		keyboard: [][]KeyboardButton{
+			{
+				KeyboardButton{
+					Text:   "Edit Gif",
+					WebApp: &WebApp{URL: url},
+				},
+			},
+		},
+	}
+}
+
 func (rkm ReplyKeyboardMarkup) FromSlicesOfStrings(rows [][]string) *ReplyKeyboardMarkup {
 	keyboard := &ReplyKeyboardMarkup{}
 	for _, row := range rows {

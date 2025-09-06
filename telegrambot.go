@@ -419,6 +419,11 @@ func (tb *TelegramBot) AnswerPreCheckoutQuery() (m *answerPreCheckoutQuery) {
 	return
 }
 
+func (tb *TelegramBot) AnswerWebAppQuery() (m *answerWebAppQuery) {
+	m = &answerWebAppQuery{parent: tb}
+	return
+}
+
 func (tb *TelegramBot) PromoteChatMember() (m *promoteChatMember) {
 	m = &promoteChatMember{parent: tb}
 	return

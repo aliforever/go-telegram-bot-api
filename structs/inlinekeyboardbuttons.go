@@ -44,6 +44,18 @@ func (ikb *InlineKeyboardButtons) AddPayButton(buttonText string) (button *Inlin
 	return
 }
 
+func (ikb *InlineKeyboardButtons) AddWebAppButton(buttonText string, webApp *WebApp) (button *InlineKeyboardButton) {
+	button = &InlineKeyboardButton{text: buttonText, webApp: webApp}
+	*ikb = append(*ikb, button)
+	return
+}
+
+func (ikb *InlineKeyboardButtons) AddWebAppUrlButton(buttonText, url string) (button *InlineKeyboardButton) {
+	button = &InlineKeyboardButton{text: buttonText, webApp: &WebApp{URL: url}}
+	*ikb = append(*ikb, button)
+	return
+}
+
 func (ikb *InlineKeyboardButtons) addToFirst(button *InlineKeyboardButton) {
 	if len(*ikb) == 0 {
 		*ikb = append(*ikb, button)
