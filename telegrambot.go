@@ -8,6 +8,7 @@ import (
 	"log/slog"
 	"math/rand"
 	"net/http"
+	"runtime/debug"
 	"time"
 
 	"github.com/go-resty/resty/v2"
@@ -571,7 +572,7 @@ func (tb *TelegramBot) Send(config Config) (result *Response, err error) {
 	var raw []byte
 	result, raw, err = tb.getMessageResponse(res, config)
 	if err != nil {
-		tb.logErrBytes(raw, err)
+		tb.logErrBytes(raw, fmt.Sprintf("%+v", config), err)
 		return nil, err
 	}
 
@@ -604,7 +605,7 @@ func (tb *TelegramBot) SendWithOptions(config Config, options *SendOptions) (res
 	var raw []byte
 	result, raw, err = tb.getMessageResponse(res, config)
 	if err != nil {
-		tb.logErrBytes(raw, err)
+		tb.logErrBytes(raw, fmt.Sprintf("%+v", config), err)
 		return nil, err
 	}
 
@@ -643,12 +644,13 @@ func (tb *TelegramBot) SlogPeriodicHandler(
 	return NewSlogPeriodic(handler, tb, chatID, interval, title, levels...)
 }
 
-func (tb *TelegramBot) logErrBytes(rawBytes []byte, err error) {
+func (tb *TelegramBot) logErrBytes(rawBytes []byte, msg string, err error) {
 	if tb.logger != nil {
 		tb.logger.Error(
-			"%s : %s",
+			msg,
 			slog.Any("error", err),
 			slog.String("response", string(rawBytes)),
+			slog.String("trace", string(debug.Stack())),
 		)
 	}
 }
