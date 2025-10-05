@@ -77,12 +77,12 @@ func (sv *addStickerToSet) SetMaskPosition(mask *structs.MaskPosition) *addStick
 	return sv
 }
 
-func (sv *addStickerToSet) SetPngStickerId(pngStickerId string) *addStickerToSet {
-	sv.sticker = pngStickerId
+func (sv *addStickerToSet) SetStickerMediaId(stickerMediaId string) *addStickerToSet {
+	sv.sticker = stickerMediaId
 	return sv
 }
 
-func (sv *addStickerToSet) SetPngStickerFilePath(stickerFilePath string) *addStickerToSet {
+func (sv *addStickerToSet) SetStickerFilePath(stickerFilePath string) *addStickerToSet {
 	sv.fileInfo = &fileInfo{
 		Field: "sticker",
 		Path:  stickerFilePath,
@@ -93,7 +93,7 @@ func (sv *addStickerToSet) SetPngStickerFilePath(stickerFilePath string) *addSti
 	return sv
 }
 
-func (sv *addStickerToSet) SetPngStickerFileReader(stickerFileReader io.Reader, fileName string) *addStickerToSet {
+func (sv *addStickerToSet) SetStickerFileReader(stickerFileReader io.Reader, fileName string) *addStickerToSet {
 	if fileName == "" {
 		fileName = time.Now().Format("2006_01_02_15_04_05")
 	}
