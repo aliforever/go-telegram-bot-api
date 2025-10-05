@@ -17,6 +17,7 @@ type addStickerToSet struct {
 	emojis       []string
 	maskPosition *structs.MaskPosition
 	keywords     []string
+	format       string
 
 	fileInfo *fileInfo
 }
@@ -31,6 +32,7 @@ func (sv *addStickerToSet) marshalJSON() ([]byte, error) {
 		Name:   sv.name,
 		Sticker: inputSticker{
 			Sticker:      sv.sticker,
+			Format:       sv.format,
 			EmojiList:    sv.emojis,
 			MaskPosition: sv.maskPosition,
 			Keywords:     sv.keywords,
@@ -111,5 +113,25 @@ func (sv *addStickerToSet) SetStickerFileReader(stickerFileReader io.Reader, fil
 
 func (sv *addStickerToSet) SetKeywords(keywords ...string) *addStickerToSet {
 	sv.keywords = keywords
+	return sv
+}
+
+func (sv *addStickerToSet) SetFormat(format string) *addStickerToSet {
+	sv.format = format
+	return sv
+}
+
+func (sv *addStickerToSet) SetFormatStatic() *addStickerToSet {
+	sv.format = "static"
+	return sv
+}
+
+func (sv *addStickerToSet) SetFormatAnimated() *addStickerToSet {
+	sv.format = "animated"
+	return sv
+}
+
+func (sv *addStickerToSet) SetFormatVideo() *addStickerToSet {
+	sv.format = "video"
 	return sv
 }

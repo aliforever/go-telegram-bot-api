@@ -83,6 +83,7 @@ func (sv *createNewStickerSet) AddStickerWithFileId(
 
 	sv.stickers = append(sv.stickers, inputSticker{
 		Sticker:      fileID,
+		Format:       sv.format,
 		EmojiList:    emojies,
 		MaskPosition: maskPosition,
 		Keywords:     keywords,
@@ -102,6 +103,7 @@ func (sv *createNewStickerSet) AddStickerWithFilePath(
 
 	sv.stickers = append(sv.stickers, inputSticker{
 		Sticker:      fmt.Sprintf("attach://%s", fieldName),
+		Format:       sv.format,
 		EmojiList:    emojies,
 		MaskPosition: maskPosition,
 		Keywords:     keywords,
@@ -127,6 +129,7 @@ func (sv *createNewStickerSet) AddStickerWithFileReader(
 
 	sv.stickers = append(sv.stickers, inputSticker{
 		Sticker:      fmt.Sprintf("attach://%s", fieldName),
+		Format:       sv.format,
 		EmojiList:    emojies,
 		MaskPosition: maskPosition,
 		Keywords:     keywords,
