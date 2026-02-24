@@ -20,7 +20,7 @@ type sendMediaGroup struct {
 	files []fileInfo
 }
 
-func (sd *sendMediaGroup) MarshalJSON() ([]byte, error) {
+func (sd *sendMediaGroup) marshalJSON() ([]byte, error) {
 	return json.Marshal(struct {
 		ChatId              interface{}   `json:"chat_id"`
 		Media               []interface{} `json:"media"`
@@ -32,6 +32,10 @@ func (sd *sendMediaGroup) MarshalJSON() ([]byte, error) {
 		DisableNotification: sd.disableNotification,
 		ReplyToMessageId:    sd.replyToMessageId,
 	})
+}
+
+func (sd *sendMediaGroup) MarshalJSON() ([]byte, error) {
+	return sd.marshalJSON()
 }
 
 func (sd *sendMediaGroup) response() interface{} {
