@@ -20,7 +20,7 @@ type inputMediaVideo struct {
 	files []fileInfo
 }
 
-func (i inputMediaVideo) marshalJSON() ([]byte, error) {
+func (i *inputMediaVideo) MarshalJSON() ([]byte, error) {
 	return json.Marshal(struct {
 		Type              string      `json:"type"`
 		Media             interface{} `json:"media"`

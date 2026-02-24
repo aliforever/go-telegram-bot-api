@@ -16,7 +16,7 @@ type inputMediaDocument struct {
 	files []fileInfo
 }
 
-func (i inputMediaDocument) marshalJSON() ([]byte, error) {
+func (i *inputMediaDocument) MarshalJSON() ([]byte, error) {
 	return json.Marshal(struct {
 		Type      string      `json:"type"`
 		Media     interface{} `json:"media"`

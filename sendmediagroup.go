@@ -20,7 +20,7 @@ type sendMediaGroup struct {
 	files []fileInfo
 }
 
-func (sd *sendMediaGroup) marshalJSON() ([]byte, error) {
+func (sd *sendMediaGroup) MarshalJSON() ([]byte, error) {
 	return json.Marshal(struct {
 		ChatId              interface{}   `json:"chat_id"`
 		Media               []interface{} `json:"media"`
@@ -86,7 +86,7 @@ func (sd *sendMediaGroup) AddPhotoId(id, caption string) *sendMediaGroup {
 }
 
 func (sd *sendMediaGroup) AddPhotoFilePath(path, caption string) *sendMediaGroup {
-	i := inputMediaPhoto{}
+	i := &inputMediaPhoto{}
 	i.SetCaption(caption)
 	if sd.media == nil {
 		sd.files = []fileInfo{}

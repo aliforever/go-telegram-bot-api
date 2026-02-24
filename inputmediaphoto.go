@@ -14,7 +14,7 @@ type inputMediaPhoto struct {
 	photo *fileInfo
 }
 
-func (i inputMediaPhoto) marshalJSON() ([]byte, error) {
+func (i *inputMediaPhoto) MarshalJSON() ([]byte, error) {
 	return json.Marshal(struct {
 		Type      string      `json:"type"`
 		Media     interface{} `json:"media"`
