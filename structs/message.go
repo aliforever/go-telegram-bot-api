@@ -13,7 +13,7 @@ type Message struct {
 	Date                         int64                         `json:"date,omitempty"`
 	Chat                         *Chat                         `json:"chat,omitempty"`
 	SenderChat                   *Chat                         `json:"sender_chat,omitempty"`
-	ForwardFrom                  *User                         `json:"forward_from,omitempty,omitempty"`
+	ForwardFrom                  *User                         `json:"forward_from,omitempty"`
 	ForwardFromChat              *Chat                         `json:"forward_from_chat,omitempty"`
 	ForwardFromMessageId         int64                         `json:"forward_from_message_id,omitempty"`
 	ForwardSignature             string                        `json:"forward_signature,omitempty"`
@@ -81,7 +81,7 @@ func (m *Message) IsChannel() bool {
 }
 
 func (m *Message) IsCommand() bool {
-	if m.Entities == nil || len(m.Entities) == 0 {
+	if len(m.Entities) == 0 {
 		return false
 	}
 

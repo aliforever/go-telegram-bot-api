@@ -405,6 +405,11 @@ func (tb *TelegramBot) File() (m *getFile) {
 	return
 }
 
+func (tb *TelegramBot) FileChunk() (m *getFileChunk) {
+	m = &getFileChunk{parent: tb}
+	return
+}
+
 func (tb *TelegramBot) KickChatMember() (m *kickChatMember) {
 	m = &kickChatMember{parent: tb}
 	return

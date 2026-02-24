@@ -17,5 +17,5 @@ type Chat struct {
 	StickerSetName        string           `json:"sticker_set_name,omitempty"`
 	CanSetStickerSet      bool             `json:"can_set_sticker_set,omitempty"`
 	LinkedChatId          bool             `json:"linked_chat_id,omitempty"`
-	Location              *ChatLocation    `json:"location,omitempty,omitempty"`
+	Location              *ChatLocation    `json:"location,omitempty"`
 }
