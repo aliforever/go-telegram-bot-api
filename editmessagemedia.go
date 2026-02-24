@@ -2,6 +2,7 @@ package tgbotapi
 
 import (
 	"encoding/json"
+
 	"github.com/aliforever/go-telegram-bot-api/tools"
 
 	"github.com/aliforever/go-telegram-bot-api/structs"
@@ -33,7 +34,7 @@ func (m *editMessageMedia) marshalJSON() ([]byte, error) {
 	}
 	if m.media != nil {
 		m.SetMedia(m.media)
-		mj, _ := m.media.marshalJSON()
+		mj, _ := m.media.MarshalJSON()
 		nM.Media = string(mj)
 	}
 	return json.Marshal(nM)
