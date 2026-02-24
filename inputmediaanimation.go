@@ -3,6 +3,7 @@ package tgbotapi
 import (
 	"encoding/json"
 	"io"
+	"strings"
 	"time"
 )
 
@@ -53,7 +54,11 @@ func (i *inputMediaAnimation) SetAnimationPath(animationPath string) *inputMedia
 	if i.files == nil {
 		i.files = []fileInfo{}
 	}
-	i.media = "attach://animation"
+	if strings.HasPrefix(animationPath, "attach://") {
+		i.media = animationPath
+	} else {
+		i.media = "attach://animation"
+	}
 	animation := &fileInfo{
 		Field: "animation",
 		Path:  animationPath,
@@ -66,7 +71,11 @@ func (i *inputMediaAnimation) SetAnimationFileReader(animationFileReader io.Read
 	if fileName == "" {
 		fileName = "animation_" + time.Now().Format("2006_01_02_15_04_05")
 	}
-	i.media = "attach://" + fileName
+	if strings.HasPrefix(fileName, "attach://") {
+		i.media = fileName
+	} else {
+		i.media = "attach://" + fileName
+	}
 	animation := &fileInfo{
 		Field:  "animation",
 		Reader: animationFileReader,

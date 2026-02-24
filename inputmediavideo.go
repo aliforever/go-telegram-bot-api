@@ -3,6 +3,7 @@ package tgbotapi
 import (
 	"encoding/json"
 	"io"
+	"strings"
 	"time"
 )
 
@@ -56,7 +57,11 @@ func (i *inputMediaVideo) SetVideoPath(videoPath string) *inputMediaVideo {
 	if i.files == nil {
 		i.files = []fileInfo{}
 	}
-	i.media = "attach://video"
+	if strings.HasPrefix(videoPath, "attach://") {
+		i.media = videoPath
+	} else {
+		i.media = "attach://video"
+	}
 	video := &fileInfo{
 		Field: "video",
 		Path:  videoPath,
@@ -69,7 +74,11 @@ func (i *inputMediaVideo) SetVideoFileReader(videoFileReader io.Reader, fileName
 	if fileName == "" {
 		fileName = "video_" + time.Now().Format("2006_01_02_15_04_05") + ".mp4"
 	}
-	i.media = "attach://video"
+	if strings.HasPrefix(fileName, "attach://") {
+		i.media = fileName
+	} else {
+		i.media = "attach://video"
+	}
 	video := &fileInfo{
 		Field:  "video",
 		Reader: videoFileReader,

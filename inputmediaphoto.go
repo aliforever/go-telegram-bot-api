@@ -3,6 +3,7 @@ package tgbotapi
 import (
 	"encoding/json"
 	"io"
+	"strings"
 )
 
 type inputMediaPhoto struct {
@@ -45,7 +46,11 @@ func (i *inputMediaPhoto) SetPhotoPath(photoPath string) *inputMediaPhoto {
 		Field: "photo",
 		Path:  photoPath,
 	}
-	i.media = "attach://photo"
+	if strings.HasPrefix(photoPath, "attach://") {
+		i.media = photoPath
+	} else {
+		i.media = "attach://photo"
+	}
 	return i
 }
 
@@ -58,7 +63,11 @@ func (i *inputMediaPhoto) SetPhotoFileReader(photoFileReader io.Reader, fileName
 		Reader: photoFileReader,
 		Name:   fileName,
 	}
-	i.media = "attach://photo"
+	if strings.HasPrefix(fileName, "attach://") {
+		i.media = fileName
+	} else {
+		i.media = "attach://photo"
+	}
 	return i
 }
 

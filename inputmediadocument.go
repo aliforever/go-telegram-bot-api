@@ -3,6 +3,7 @@ package tgbotapi
 import (
 	"encoding/json"
 	"io"
+	"strings"
 	"time"
 )
 
@@ -44,7 +45,11 @@ func (i *inputMediaDocument) SetDocumentPath(documentPath string) *inputMediaDoc
 	if i.files == nil {
 		i.files = []fileInfo{}
 	}
-	i.media = "attach://document"
+	if strings.HasPrefix(documentPath, "attach://") {
+		i.media = documentPath
+	} else {
+		i.media = "attach://document"
+	}
 	document := &fileInfo{
 		Field: "document",
 		Path:  documentPath,
@@ -57,7 +62,11 @@ func (i *inputMediaDocument) SetDocumentFileReader(documentFileReader io.Reader,
 	if fileName == "" {
 		fileName = "document_" + time.Now().Format("2006_01_02_15_04_05")
 	}
-	i.media = "attach://" + fileName
+	if strings.HasPrefix(fileName, "attach://") {
+		i.media = fileName
+	} else {
+		i.media = "attach://" + fileName
+	}
 	document := &fileInfo{
 		Field:  "document",
 		Reader: documentFileReader,

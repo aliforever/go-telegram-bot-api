@@ -3,6 +3,7 @@ package tgbotapi
 import (
 	"encoding/json"
 	"io"
+	"strings"
 	"time"
 )
 
@@ -54,7 +55,11 @@ func (i *inputMediaAudio) SetAudioPath(audioPath string) *inputMediaAudio {
 	if i.files == nil {
 		i.files = []fileInfo{}
 	}
-	i.media = "attach://audio"
+	if strings.HasPrefix(audioPath, "attach://") {
+		i.media = audioPath
+	} else {
+		i.media = "attach://audio"
+	}
 	audio := &fileInfo{
 		Field: "audio",
 		Path:  audioPath,
@@ -67,7 +72,11 @@ func (i *inputMediaAudio) SetAudioFileReader(audioFileReader io.Reader, fileName
 	if fileName == "" {
 		fileName = "audio_" + time.Now().Format("2006_01_02_15_04_05") + ".mp3"
 	}
-	i.media = "attach://audio"
+	if strings.HasPrefix(fileName, "attach://") {
+		i.media = fileName
+	} else {
+		i.media = "attach://audio"
+	}
 	audio := &fileInfo{
 		Field:  "audio",
 		Reader: audioFileReader,
