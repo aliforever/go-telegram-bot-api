@@ -405,8 +405,8 @@ func (tb *TelegramBot) File() (m *getFile) {
 	return
 }
 
-func (tb *TelegramBot) FileChunk() (m *getFileChunk) {
-	m = &getFileChunk{parent: tb}
+func (tb *TelegramBot) FileBytesChunk() (m *getFileBytesChunk) {
+	m = &getFileBytesChunk{parent: tb}
 	return
 }
 
@@ -582,6 +582,17 @@ func (tb *TelegramBot) Send(config Config) (result *Response, err error) {
 	}
 
 	return
+}
+
+func (tb *TelegramBot) SendRaw(config Config) (*resty.Response, error) {
+	request := tb.client.R()
+
+	err := tb.prepareRequest(config, request)
+	if err != nil {
+		return nil, err
+	}
+
+	return request.Execute(config.method(), config.endpoint())
 }
 
 func (tb *TelegramBot) SendWithOptions(config Config, options *SendOptions) (result *Response, err error) {
